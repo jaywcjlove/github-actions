@@ -6,6 +6,7 @@
 <!-- TOC -->
 
 - [常用实例](#常用实例)
+  - [获取版本信息](#获取版本信息)
 - [默认环境变量](#默认环境变量)
 - [Github 上下文](#github-上下文)
 
@@ -13,7 +14,19 @@
 
 ## 常用实例
 
+### 获取版本信息
 
+```yml
+- name: Test
+  run: |
+    # Strip git ref prefix from version
+    echo "${{ github.ref }}"
+    # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+    # # Strip "v" prefix from tag name
+    # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+    echo "$VERSION"
+```
 
 ## 默认环境变量
 
