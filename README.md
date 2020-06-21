@@ -13,6 +13,7 @@
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
   - [提交 docker 镜像](#提交-docker-镜像)
   - [Node.js](#nodejs)
+  - [同步 Gitee](#同步-gitee)
 - [默认环境变量](#默认环境变量)
 - [Github 上下文](#github-上下文)
 
@@ -76,6 +77,10 @@
 ### 提交 docker 镜像
 
 ```yml
+# https://www.basefactor.com/github-actions-docker
+- name: Docker login
+  run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
 - name: Build ant.design image
   run: |
     cd ./ant\.design
@@ -111,6 +116,22 @@ steps:
 - run: npm run build --if-present
 - run: npm test
 
+```
+
+### 同步 Gitee
+
+```yml
+- name: Sync to Gitee
+  run: |
+    mirror() {
+      git clone "https://github.com/$1/$2"
+      cd "$2"
+      git remote add gitee "https://jaywcjlove:${{ secrets.GITEE_TOKEN }}@gitee.com/uiw/$2.git"
+      git remote set-head origin -d
+      git push gitee --prune +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
+      cd ..
+    }
+    mirror uiwjs uiw
 ```
 
 ## 默认环境变量
