@@ -40,6 +40,7 @@ jobs:
       run: |
         # Strip git ref prefix from version
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        COMMIT=released-${VERSION}
 
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
@@ -47,7 +48,6 @@ jobs:
 
         # 将版本输出到当前 VERSION 文件中
         echo "$VERSION" > VERSION
-        COMMIT=released-${VERSION}
         echo "1. 输出Commit：$commit"
         echo "2. Released $VERSION"
         git fetch
