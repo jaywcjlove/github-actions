@@ -42,8 +42,8 @@ jobs:
       run: |
         # Strip git ref prefix from version
 
-        echo {{github}}
         # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
         # # Strip "v" prefix from tag name
         # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        echo github
