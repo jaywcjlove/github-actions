@@ -48,4 +48,4 @@ jobs:
 
         # # Strip "v" prefix from tag name
         # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        echo $VERSION
+        echo "$VERSION"

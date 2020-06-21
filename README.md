@@ -3,6 +3,29 @@ Github Actions
 
 测试 GitHub 工作流
 
+## [默认环境变量](https://help.github.com/cn/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables)
+
+强烈建议操作使用环境变量访问文件系统，而非使用硬编码的文件路径。 GitHub 设置供操作用于所有运行器环境中的环境变量。
+
+环境变量 | 描述
+---- | ----
+CI |  始终设置为 true。
+HOME |  用于存储用户数据的 GitHub 主目录路径。 例如 /github/home。
+GITHUB_WORKFLOW | 工作流程的名称。
+GITHUB_RUN_ID | 仓库中每个运行的唯一编号。 如果您重新执行工作流程运行，此编号不变。
+GITHUB_RUN_NUMBER | 仓库中特定工作流程每个运行的唯一编号。 此编号从 1（对应于工作流程的第一个运行）开始，然后随着每个新的运行而递增。 如果您重新执行工作流程运行，此编号不变。
+GITHUB_ACTION | 操作唯一的标识符 (id)。
+GITHUB_ACTIONS |  当 GitHub 操作 运行工作流程时，始终设置为 true。 您可以使用此变量来区分测试是在本地运行还是通过 GitHub 操作 运行。
+GITHUB_ACTOR |  发起工作流程的个人或应用程序的名称。 例如 octocat。
+GITHUB_REPOSITORY | 所有者和仓库名称。 例如 octocat/Hello-World。
+GITHUB_EVENT_NAME | 触发工作流程的 web 挂钩事件的名称。
+GITHUB_EVENT_PATH | 具有完整 web 挂钩事件有效负载的文件路径。 例如 /github/workflow/event.json。
+GITHUB_WORKSPACE |  GitHub 工作空间目录路径。 如果您的工作流程使用 [actions/checkout](https://github.com/actions/checkout) 操作，工作空间目录将包含存储仓库副本的子目录。 如果不使用 [actions/checkout](https://github.com/actions/checkout) 操作，该目录将为空。 例如 /home |/runner/work/my-repo-name/my-repo-name。
+GITHUB_SHA |  触发工作流程的提交 SHA。 例如 ffac537e6cbbf934b08745a378932722df287a53。
+GITHUB_REF |  触发工作流程的分支或标记参考。 例如 refs/heads/feature-branch-1。 如果分支或标记都不适用于事件类型，则变量不会存在。
+GITHUB_HEAD_REF | 仅为复刻的仓库设置。 头部仓库的分支。
+GITHUB_BASE_REF | 仅为复刻的仓库设置。 基础仓库的分支。
+
 ## [Github 上下文](https://help.github.com/cn/actions/reference/context-and-expression-syntax-for-github-actions)
 
 属性名称 | 类型 | 描述
