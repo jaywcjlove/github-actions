@@ -1,8 +1,8 @@
 name: test
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v*
 
 jobs:
   build-deploy:
@@ -41,12 +41,14 @@ jobs:
     - name: 输出 ref
       run: echo "${{ github.ref }}"
 
+    - name: 输出 ref 版本
+      run: echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'
+      
     - name: Test
       run: |
         # Strip git ref prefix from version
-        echo "${{ github.ref }}"
         # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
         # # Strip "v" prefix from tag name
         # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        echo "$VERSION"
+        echo "--> $VERSION"
