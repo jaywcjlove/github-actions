@@ -48,13 +48,14 @@ jobs:
         # 将版本输出到当前 VERSION 文件中
         echo "$VERSION" > VERSION
         commit="Released ${VERSION}"
-        echo "输出Commit：$commit"
+        echo "1. 输出Commit：$commit"
+        echo "2. Released $VERSION"
 
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
 
-        git commit -m $(echo "Released ${{ github.ref }}")
+        git commit -m $(echo "Released $VERSION")
 
     - name: 将上面的提交 push 到 master 分支
       uses: ad-m/github-push-action@master
