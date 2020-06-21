@@ -47,7 +47,7 @@ jobs:
 
         # 将版本输出到当前 VERSION 文件中
         echo "$VERSION" > VERSION
-        COMMIT=Released\s${VERSION}
+        COMMIT=Released\ ${VERSION}
         echo "1. 输出Commit：$commit"
         echo "2. Released $VERSION"
         git fetch
