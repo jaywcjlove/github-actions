@@ -38,17 +38,18 @@ jobs:
     #   uses: ad-m/github-push-action@master
     #   with:
     #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: 输出 ref
+    - name: 输出 ref，如：refs/tags/v1.0.2
       run: echo "${{ github.ref }}"
 
-    - name: 输出 ref 版本
+    - name: 输出 ref 版本 如：v1.0.2
       run: echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'
-      
-    - name: Test
+
+    - name: 输出 ref 版本号，删除前面的 `v` 如：1.0.2
       run: |
         # Strip git ref prefix from version
-        # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-        # # Strip "v" prefix from tag name
-        # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        echo "--> $VERSION"
+        # Strip "v" prefix from tag name
+        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        echo "输出版本号：--> $VERSION <---"
+      
