@@ -40,10 +40,13 @@ jobs:
     #   uses: ad-m/github-push-action@master
     #   with:
     #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: 输出 ref
+      run: echo "${{ github.ref }}"
+      
     - name: Test
       run: |
         # Strip git ref prefix from version
-
+        echo "${{ github.ref }}"
         # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
         # # Strip "v" prefix from tag name
