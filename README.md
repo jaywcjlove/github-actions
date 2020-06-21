@@ -7,6 +7,10 @@
 
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
+  - [修改 package.json](#修改-packagejson)
+  - [提交 NPM 包](#提交-npm-包)
+  - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
+  - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
 - [默认环境变量](#默认环境变量)
 - [Github 上下文](#github-上下文)
 
@@ -26,6 +30,45 @@
     # # Strip "v" prefix from tag name
     # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
     echo "$VERSION"
+```
+
+### 修改 package.json
+
+```yml
+- name: Modify Version
+  shell: bash
+  run: |
+    node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'
+```
+
+### 提交 NPM 包
+
+```yml
+- run: npm publish --access public
+  env:
+    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+```
+
+### 提交到 gh-pages 分支
+
+```yml
+- name: Deploy Web
+  uses: peaceiris/actions-gh-pages@v2.5.0
+  env:
+    ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+    PUBLISH_BRANCH: gh-pages
+    PUBLISH_DIR: ./web
+```
+
+### 克隆带有 Submodule 的仓库
+
+```yml
+- name: Clone sub repository
+  shell: bash
+  run: |
+    auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+    # git submodule sync --recursive
+    # git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --remote --force --recursive --checkout ant.design
 ```
 
 ## 默认环境变量
