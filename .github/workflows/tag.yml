@@ -63,12 +63,12 @@ jobs:
         echo "输出版本号：$VERSION"
 
         # 将版本输出到当前 VERSION 文件中
-        echo "$VERSION" >> VERSION
+        echo "$VERSION" > VERSION
 
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
-        git commit -am 'to $(date) ${{ github.ref }}'
+        git commit -am 'to ${{ VERSION }}'
 
     - name: 将上面的提交 push 到 master 分支
       uses: ad-m/github-push-action@master
