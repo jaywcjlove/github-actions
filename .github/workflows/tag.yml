@@ -69,8 +69,8 @@ jobs:
         git config --local user.name "GitHub Action"
         git add .
 
-        COMMIT=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-        git commit -m $COMMIT
+        commit="Released ${VERSION} ${date}"
+        git commit -m $commit
 
     - name: 将上面的提交 push 到 master 分支
       uses: ad-m/github-push-action@master
