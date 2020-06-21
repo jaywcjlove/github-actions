@@ -39,10 +39,10 @@ jobs:
     #   with:
     #     github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: 输出 ref，如：refs/tags/v1.0.2
-      run: echo "${{ github.ref }}"
+      run: echo "版本号：${{ github.ref }}"
 
     - name: 输出 ref 版本 如：v1.0.2
-      run: echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'
+      run: echo "版本号：${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'
 
     - name: 输出 ref 版本号，删除前面的 `v` 如：1.0.2
       run: |
@@ -51,5 +51,25 @@ jobs:
 
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        echo "输出版本号：--> $VERSION <---"
-      
+        echo "输出版本号：$VERSION"
+
+    - name: 生成一个文件，并将它提交到 master 分支
+      run: |
+        # Strip git ref prefix from version
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+        # Strip "v" prefix from tag name
+        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        echo "输出版本号：$VERSION"
+
+        # 将版本输出到当前 VERSION 文件中
+        echo "$VERSION" >> VERSION
+
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "to $VERSION" -a
+
+    - name: 将上面的提交 push 到 master 分支
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
