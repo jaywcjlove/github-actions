@@ -1,9 +1,18 @@
-Github Actions
-====
+<h2>Github Actions</h2>
+
 
 测试 GitHub 工作流
 
-## [默认环境变量](https://help.github.com/cn/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables)
+<!-- TOC -->
+
+- [默认环境变量](#默认环境变量)
+- [Github 上下文](#github-上下文)
+
+<!-- /TOC -->
+
+## 默认环境变量
+
+> [默认环境变量](https://help.github.com/cn/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables)
 
 强烈建议操作使用环境变量访问文件系统，而非使用硬编码的文件路径。 GitHub 设置供操作用于所有运行器环境中的环境变量。
 
@@ -26,7 +35,9 @@ GITHUB_REF |  触发工作流程的分支或标记参考。 例如 refs/heads/fe
 GITHUB_HEAD_REF | 仅为复刻的仓库设置。 头部仓库的分支。
 GITHUB_BASE_REF | 仅为复刻的仓库设置。 基础仓库的分支。
 
-## [Github 上下文](https://help.github.com/cn/actions/reference/context-and-expression-syntax-for-github-actions)
+## Github 上下文
+
+> [Github 上下文](https://help.github.com/cn/actions/reference/context-and-expression-syntax-for-github-actions)
 
 属性名称 | 类型 | 描述
 ---- | ---- | ----
