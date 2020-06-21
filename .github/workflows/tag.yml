@@ -67,7 +67,7 @@ jobs:
 
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m 'to $(VERSION)' -a
+        git commit -am 'to $(VERSION)'
 
     - name: 将上面的提交 push 到 master 分支
       uses: ad-m/github-push-action@master
