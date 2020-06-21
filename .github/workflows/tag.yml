@@ -21,23 +21,6 @@ jobs:
     #   run: |
     #     node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'
 
-    # - name: Commit files
-    #   run: |
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git commit -m "Add changes" -a
-
-
-    # - name: Commit files
-    #   run: |
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git commit -m "Add changes" -a
-
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: 输出 ref，如：refs/tags/v1.0.2
       run: echo "版本号：${{ github.ref }}"
 
@@ -71,7 +54,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add .
 
-        git commit -m $commit
+        git commit -m $VERSION
 
     - name: 将上面的提交 push 到 master 分支
       uses: ad-m/github-push-action@master
