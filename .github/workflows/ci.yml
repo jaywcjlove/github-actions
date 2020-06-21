@@ -38,7 +38,7 @@ jobs:
     #   uses: ad-m/github-push-action@master
     #   with:
     #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Tags & Push typescriptlang.org
+    - name: Test
       run: |
         # Strip git ref prefix from version
 
@@ -46,4 +46,4 @@ jobs:
 
         # # Strip "v" prefix from tag name
         # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        echo VERSION
+        echo ${{VERSION}}
