@@ -11,6 +11,8 @@
   - [提交 NPM 包](#提交-npm-包)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
+  - [提交 docker 镜像](#提交-docker-镜像)
+  - [Node.js](#nodejs)
 - [默认环境变量](#默认环境变量)
 - [Github 上下文](#github-上下文)
 
@@ -69,6 +71,46 @@
     auth_header="$(git config --local --get http.https://github.com/.extraheader)"
     # git submodule sync --recursive
     # git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --remote --force --recursive --checkout ant.design
+```
+
+### 提交 docker 镜像
+
+```yml
+- name: Build ant.design image
+  run: |
+    cd ./ant\.design
+    docker build -t ant.design .
+- name: Tags & Push docs
+  run: |
+    # Strip git ref prefix from version
+    VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+    # Strip "v" prefix from tag name
+    [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+    docker tag ant.design ${{ secrets.DOCKER_USER }}/ant.design:$VERSION
+    docker tag ant.design ${{ secrets.DOCKER_USER }}/ant.design:latest
+    docker push ${{ secrets.DOCKER_USER }}/ant.design:$VERSION
+    docker push ${{ secrets.DOCKER_USER }}/ant.design:latest
+```
+
+### Node.js
+
+```yml
+strategy:
+  matrix:
+    node-version: [10.x, 12.x, 14.x]
+
+steps:
+- uses: actions/checkout@v2
+- name: Use Node.js ${{ matrix.node-version }}
+  uses: actions/setup-node@v1
+  with:
+    node-version: ${{ matrix.node-version }}
+- run: npm ci
+- run: npm run build --if-present
+- run: npm test
+
 ```
 
 ## 默认环境变量
