@@ -102,6 +102,13 @@
 ### Node.js
 
 ```yml
+- name: Setup Node
+  uses: actions/setup-node@v1
+  with:
+    node-version: '10.x'
+```
+
+```yml
 strategy:
   matrix:
     node-version: [10.x, 12.x, 14.x]
