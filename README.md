@@ -52,6 +52,14 @@
     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 ```
 
+获取 `NPM_TOKEN` 
+
+```shell
+npm token list [--json|--parseable] # 查看
+npm token create [--read-only] [--cidr=1.1.1.1/24,2.2.2.2/16] # 创建
+npm token revoke <id|token> # 撤销
+```
+
 ### 提交到 gh-pages 分支
 
 ```yml
