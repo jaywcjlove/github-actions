@@ -61,3 +61,23 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+    - name: 提交到 npm
+      run: |
+        # npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+        # https://docs.npmjs.com/files/npmrc
+        # echo "_auth=\${NODE_AUTH_TOKEN}\nregistry = https://registry.npmjs.org/" > .npmrc
+        # echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > .npmrc
+        echo "https://registry.npmjs.org/:_password=${{ secrets.NPM_PASSWORD }}" > .npmrc
+        echo "https://registry.npmjs.org/:username=wcjiang" >> .npmrc
+        echo "https://registry.npmjs.org/:email=398188662@qq.com" >> .npmrc
+        echo "https://registry.npmjs.org/:always-auth=false" >> .npmrc
+
+        cat /home/runner/work/_temp/.npmrc
+        echo "npmrc-->>: /home/runner/work/_temp/.npmrc"
+        cat .npmrc
+        echo "npmrc:project-->>: /home/runner/work/uiw/uiw/.npmrc"
+        npm config ls -l
+        npm whoami
+        rm -rf .npmrc
