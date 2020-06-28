@@ -48,7 +48,7 @@ jobs:
         # npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
         # echo $NPM_PASSWORD
 
-        echo "auth-type = auth-type" >> /home/runner/work/_temp/.npmrc
+        echo "auth-type = oauth" >> /home/runner/work/_temp/.npmrc
         cat /home/runner/work/_temp/.npmrc
         echo "npmrc-->>: /home/runner/work/_temp/.npmrc"
         cat /home/runner/work/_temp/.npmrc
