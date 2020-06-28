@@ -64,7 +64,15 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-
+    - name: 登录npm
+      run: |
+        npm install -g npm-cli-login
+        npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
+        echo $NPM_PASSWORD
+        npm whoami
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_PASSWORD: ${{ secrets.NPM_PASSWORD }}
     - name: 提交到 npm
       run: |
         # npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
