@@ -36,6 +36,24 @@ jobs:
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
         echo "输出版本号：$VERSION"
 
+
+    - name: 登录npm
+      run: |
+        npm config set _auth $NODE_AUTH_TOKEN
+        npm config set registry https://registry.npmjs.org/
+        npm config set always-auth=true
+        npm config set email=398188662@qq.com
+        # npm install -g npm-cli-login
+        # npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
+        # echo $NPM_PASSWORD
+
+        cat /home/runner/work/_temp/.npmrc
+        echo '--->'
+        npm whoami
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_PASSWORD: ${{ secrets.NPM_PASSWORD }}
+
     - name: 生成一个文件，并将它提交到 master 分支
       run: |
         # Strip git ref prefix from version
@@ -64,22 +82,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: 登录npm
-      run: |
-        npm config set _auth $NODE_AUTH_TOKEN
-        npm config set registry https://registry.npmjs.org/
-        npm config set always-auth=true
-        npm config set email=398188662@qq.com
-        # npm install -g npm-cli-login
-        # npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
-        # echo $NPM_PASSWORD
-
-        cat /home/runner/work/_temp/.npmrc
-        echo '--->'
-        npm whoami
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        NPM_PASSWORD: ${{ secrets.NPM_PASSWORD }}
     - name: 提交到 npm
       run: |
         # npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
