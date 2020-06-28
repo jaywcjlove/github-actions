@@ -66,9 +66,13 @@ jobs:
 
     - name: 登录npm
       run: |
-        npm install -g npm-cli-login
-        npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
-        echo $NPM_PASSWORD
+        npm config set _auth $NODE_AUTH_TOKEN
+        npm config set registry https://registry.npmjs.org/
+        npm config set always-auth=true
+        npm config set email=398188662@qq.com
+        # npm install -g npm-cli-login
+        # npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
+        # echo $NPM_PASSWORD
         npm whoami
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
