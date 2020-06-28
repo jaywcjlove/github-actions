@@ -41,12 +41,14 @@ jobs:
       run: |
         npm config set _auth $NODE_AUTH_TOKEN
         npm config set registry https://registry.npmjs.org/
+        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
         npm config set always-auth=true
         npm config set email=398188662@qq.com
         # npm install -g npm-cli-login
         # npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
         # echo $NPM_PASSWORD
 
+        echo "auth-type = auth-type" >> /home/runner/work/_temp/.npmrc
         cat /home/runner/work/_temp/.npmrc
         echo "npmrc-->>: /home/runner/work/_temp/.npmrc"
         cat /home/runner/work/_temp/.npmrc
