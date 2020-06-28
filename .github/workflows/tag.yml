@@ -49,8 +49,7 @@ jobs:
 
         cat /home/runner/work/_temp/.npmrc
         echo "npmrc-->>: /home/runner/work/_temp/.npmrc"
-        cat .npmrc
-        echo "npmrc:project-->>: /home/runner/work/uiw/uiw/.npmrc"
+        cat /home/runner/work/_temp/.npmrc
         npm config ls -l
         echo '--->'
         npm whoami
