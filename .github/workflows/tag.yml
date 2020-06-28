@@ -81,3 +81,5 @@ jobs:
         npm config ls -l
         npm whoami
         rm -rf .npmrc
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
