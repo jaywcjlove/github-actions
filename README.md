@@ -52,7 +52,7 @@
     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 ```
 
-获取 `NPM_TOKEN` 
+获取 `NPM_TOKEN`，可以通过 [npm](https://www.npmjs.com/settings/wcjiang/tokens) 账号创建 `token`
 
 ```shell
 npm token list [--json|--parseable] # 查看
