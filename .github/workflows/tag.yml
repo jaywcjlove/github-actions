@@ -73,6 +73,9 @@ jobs:
         # npm install -g npm-cli-login
         # npm-cli-login -u wcjiang -p $NPM_PASSWORD -e 398188662@qq.com
         # echo $NPM_PASSWORD
+
+        cat /home/runner/work/_temp/.npmrc
+        echo '--->'
         npm whoami
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
