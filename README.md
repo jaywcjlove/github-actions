@@ -6,7 +6,6 @@
 
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
-  - [环境变量](#环境变量)
   - [修改 package.json](#修改-packagejson)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
@@ -14,7 +13,9 @@
   - [提交 docker 镜像](#提交-docker-镜像)
   - [Node.js](#nodejs)
   - [同步 Gitee](#同步-gitee)
-- [默认环境变量](#默认环境变量)
+- [环境变量](#环境变量)
+  - [默认环境变量](#默认环境变量)
+  - [自定义环境变量](#自定义环境变量)
 - [Github 上下文](#github-上下文)
 
 <!-- /TOC -->
@@ -35,18 +36,6 @@
     echo "$VERSION"
 ```
 
-### 环境变量
-
-> 注： `GitHub` 会保留 `GITHUB_` 环境变量前缀供 `GitHub` 内部使用。 设置有 `GITHUB_` 前缀的环境变量或密码将导致错误。
-
-在 `https://github.com/<用户名>/<项目名称>/settings/secrets` 中设置 `secrets` 
-
-```yml
-- name: 测试 nodejs 获取环境变量
-  env:
-    NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
-  run: npm run env
-```
 
 ### 修改 package.json
 
@@ -162,11 +151,13 @@ steps:
     mirror uiwjs uiw
 ```
 
-## 默认环境变量
+## 环境变量
 
 > [默认环境变量](https://help.github.com/cn/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables)
 
 强烈建议操作使用环境变量访问文件系统，而非使用硬编码的文件路径。 GitHub 设置供操作用于所有运行器环境中的环境变量。
+
+### 默认环境变量
 
 环境变量 | 描述
 ---- | ----
@@ -186,6 +177,19 @@ GITHUB_SHA |  触发工作流程的提交 SHA。 例如 ffac537e6cbbf934b08745a3
 GITHUB_REF |  触发工作流程的分支或标记参考。 例如 refs/heads/feature-branch-1。 如果分支或标记都不适用于事件类型，则变量不会存在。
 GITHUB_HEAD_REF | 仅为复刻的仓库设置。 头部仓库的分支。
 GITHUB_BASE_REF | 仅为复刻的仓库设置。 基础仓库的分支。
+
+### 自定义环境变量
+
+> 注： `GitHub` 会保留 `GITHUB_` 环境变量前缀供 `GitHub` 内部使用。 设置有 `GITHUB_` 前缀的环境变量或密码将导致错误。
+
+在 `https://github.com/<用户名>/<项目名称>/settings/secrets` 中添加 `secrets` `NODE_API_TOKEN`，在工作流中设置环境变量 [`NODE_API_TOKEN`](https://github.com/jaywcjlove/github-actions/blob/799b232fca3d9df0272eaa12610f9ebfca51b288/.github/workflows/ci.yml#L46)
+
+```yml
+- name: 测试 nodejs 获取环境变量
+  env:
+    NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
+  run: npm run env
+```
 
 ## Github 上下文
 
