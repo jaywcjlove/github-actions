@@ -41,6 +41,9 @@ jobs:
     - name: 输出 ref
       run: echo "${{ github.ref }}"
 
+    - name: 测试 nodejs 获取环境变量
+      run: npm run env
+
     - name: Test
       run: |
         # Strip git ref prefix from version
