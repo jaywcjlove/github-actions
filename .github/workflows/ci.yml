@@ -42,6 +42,8 @@ jobs:
       run: echo "${{ github.ref }}"
 
     - name: 测试 nodejs 获取环境变量
+      env:
+        NODE_API_TOKEN: Mona
       run: npm run env
 
     - name: Test
