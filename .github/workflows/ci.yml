@@ -43,7 +43,7 @@ jobs:
 
     - name: 测试 nodejs 获取环境变量
       env:
-        NODE_API_TOKEN: Mona
+        NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
       run: npm run env
 
     - name: Test
