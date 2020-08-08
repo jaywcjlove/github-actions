@@ -8,9 +8,9 @@
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
   - [修改 package.json](#修改-packagejson)
-  - [提交 NPM 包](#提交-npm-包)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
+  - [提交 NPM 包](#提交-npm-包)
   - [提交 docker 镜像](#提交-docker-镜像)
   - [Node.js](#nodejs)
   - [同步 Gitee](#同步-gitee)
@@ -44,22 +44,6 @@
     node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'
 ```
 
-### 提交 NPM 包
-
-```yml
-- run: npm publish --access public
-  env:
-    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-```
-
-获取 `NPM_TOKEN`，可以通过 [npm](https://www.npmjs.com/settings/wcjiang/tokens) 账号创建 `token`
-
-```shell
-npm token list [--json|--parseable] # 查看
-npm token create [--read-only] [--cidr=1.1.1.1/24,2.2.2.2/16] # 创建
-npm token revoke <id|token> # 撤销
-```
-
 ### 提交到 gh-pages 分支
 
 ```yml
@@ -80,6 +64,22 @@ npm token revoke <id|token> # 撤销
     auth_header="$(git config --local --get http.https://github.com/.extraheader)"
     # git submodule sync --recursive
     # git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --remote --force --recursive --checkout ant.design
+```
+
+### 提交 NPM 包
+
+```yml
+- run: npm publish --access public
+  env:
+    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+```
+
+获取 `NPM_TOKEN`，可以通过 [npm](https://www.npmjs.com/settings/wcjiang/tokens) 账号创建 `token`
+
+```shell
+npm token list [--json|--parseable] # 查看
+npm token create [--read-only] [--cidr=1.1.1.1/24,2.2.2.2/16] # 创建
+npm token revoke <id|token> # 撤销
 ```
 
 ### 提交 docker 镜像
