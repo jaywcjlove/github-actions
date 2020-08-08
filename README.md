@@ -1,6 +1,5 @@
 <h1>Github Actions</h1>
 
-
 测试 GitHub 工作流
 
 <!-- TOC -->
@@ -39,6 +38,8 @@
 ### 环境变量
 
 > 注： `GitHub` 会保留 `GITHUB_` 环境变量前缀供 `GitHub` 内部使用。 设置有 `GITHUB_` 前缀的环境变量或密码将导致错误。
+
+在 `https://github.com/<用户名>/<项目名称>/settings/secrets` 中设置 `secrets` 
 
 ```yml
 - name: 测试 nodejs 获取环境变量
