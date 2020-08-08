@@ -7,6 +7,7 @@
 
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
+  - [环境变量](#环境变量)
   - [修改 package.json](#修改-packagejson)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
@@ -33,6 +34,17 @@
     # # Strip "v" prefix from tag name
     # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
     echo "$VERSION"
+```
+
+### 环境变量
+
+> 注： `GitHub` 会保留 `GITHUB_` 环境变量前缀供 `GitHub` 内部使用。 设置有 `GITHUB_` 前缀的环境变量或密码将导致错误。
+
+```yml
+- name: 测试 nodejs 获取环境变量
+  env:
+    NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
+  run: npm run env
 ```
 
 ### 修改 package.json
