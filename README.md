@@ -11,6 +11,7 @@
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
   - [提交 NPM 包](#提交-npm-包)
   - [提交 docker 镜像](#提交-docker-镜像)
+  - [提交 commit 到 master 分支](#提交-commit-到-master-分支)
   - [Node.js](#nodejs)
   - [同步 Gitee](#同步-gitee)
 - [环境变量](#环境变量)
@@ -107,6 +108,34 @@ npm token revoke <id|token> # 撤销
     docker tag ant.design ${{ secrets.DOCKER_USER }}/ant.design:latest
     docker push ${{ secrets.DOCKER_USER }}/ant.design:$VERSION
     docker push ${{ secrets.DOCKER_USER }}/ant.design:latest
+```
+
+### 提交 commit 到 master 分支
+
+```yml
+- name: 生成一个文件，并将它提交到 master 分支
+  run: |
+    # Strip git ref prefix from version
+    VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+    COMMIT=released-${VERSION}
+    # Strip "v" prefix from tag name
+    [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+    echo "输出版本号：$VERSION"
+    # 将版本输出到当前 VERSION 文件中
+    echo "$VERSION" > VERSION
+    echo "1. 输出Commit：$commit"
+    echo "2. Released $VERSION"
+    git fetch
+    git config --local user.email "action@github.com"
+    git config --local user.name "GitHub Action"
+    git add .
+    git commit -am $COMMIT
+    git branch -av
+    git pull origin master
+- name: 将上面的提交 push 到 master 分支
+  uses: ad-m/github-push-action@master
+  with:
+    github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ### Node.js
