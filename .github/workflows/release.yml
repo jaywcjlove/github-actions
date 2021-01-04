@@ -16,7 +16,7 @@ jobs:
 
     - name: Generate changelog
       id: changelog
-      uses: forksss/changelog-generator@v0.4.5
+      uses: forksss/changelog-generator@v0.4.6
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}
         # base-ref: ${{ github.ref }}
