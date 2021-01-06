@@ -49,7 +49,9 @@ jobs:
     - name: mkdir -p a/b/c/d
       run: mkdir -p a/b/c/d
     - name: copy
-      run: cp -rf index.js a/b/c/d
+      run: |
+        cp -rf index.js a/b/c/d
+        ls -a a/b/c/d
     - name: Test
       run: |
         # Strip git ref prefix from version
