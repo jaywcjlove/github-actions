@@ -46,6 +46,10 @@ jobs:
         NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
       run: npm run env
 
+    - name: mkdir -p a/b/c/d
+      run: mkdir -p a/b/c/d
+    - name: copy
+      run: cp -rf index.js a/b/c/d
     - name: Test
       run: |
         # Strip git ref prefix from version
