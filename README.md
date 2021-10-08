@@ -141,9 +141,9 @@ npm token revoke <id|token> # 撤销
 
 ```yml
 - name: Setup Node
-  uses: actions/setup-node@v1
+  uses: actions/setup-node@v2
   with:
-    node-version: '10.x'
+    node-version: 14
 ```
 
 ```yml
