@@ -50,12 +50,11 @@
 ### 提交到 gh-pages 分支
 
 ```yml
-- name: Deploy Web
-  uses: peaceiris/actions-gh-pages@v2.5.0
-  env:
-    ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-    PUBLISH_BRANCH: gh-pages
-    PUBLISH_DIR: ./web
+- name: Deploy
+  uses: peaceiris/actions-gh-pages@v3
+  with:
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+    publish_dir: ./build
 ```
 
 ### 克隆带有 Submodule 的仓库
