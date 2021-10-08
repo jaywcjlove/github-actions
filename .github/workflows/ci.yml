@@ -22,48 +22,48 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
 
-    # - name: Modify Version
-    #   shell: bash
-    #   run: |
-    #     node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'
+      # - name: Modify Version
+      #   shell: bash
+      #   run: |
+      #     node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'
 
-    # - name: Commit files
-    #   run: |
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git commit -m "Add changes" -a
+      # - name: Commit files
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git commit -m "Add changes" -a
 
 
-    # - name: Commit files
-    #   run: |
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git commit -m "Add changes" -a
+      # - name: Commit files
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git commit -m "Add changes" -a
 
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: 输出 ref
-      run: echo "${{ github.ref }}"
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 输出 ref
+        run: echo "${{ github.ref }}"
 
-    - name: 测试 nodejs 获取环境变量
-      env:
-        NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
-      run: npm run env
+      - name: 测试 nodejs 获取环境变量
+        env:
+          NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
+        run: npm run env
 
-    - name: mkdir -p a/b/c/d
-      run: mkdir -p a/b/c/d
-    - name: copy
-      run: |
-        cp -rf index.js a/b/c/d
-        ls -a a/b/c/d
-    - name: Test
-      run: |
-        # Strip git ref prefix from version
-        echo "${{ github.ref }}"
-        # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+      - name: mkdir -p a/b/c/d
+        run: mkdir -p a/b/c/d
+      - name: copy
+        run: |
+          cp -rf index.js a/b/c/d
+          ls -a a/b/c/d
+      - name: Test
+        run: |
+          # Strip git ref prefix from version
+          echo "${{ github.ref }}"
+          # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-        # # Strip "v" prefix from tag name
-        # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        echo "$VERSION"
+          # # Strip "v" prefix from tag name
+          # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          echo "$VERSION"
