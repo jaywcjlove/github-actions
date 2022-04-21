@@ -29,10 +29,12 @@ jobs:
         with:
           name: my-artifact
           path: job1.md
+      
+      - run: ls -al
 
       - uses: actions/upload-artifact@master
         with:
-          name: my-artifact
+          name: my-artifact-job2
           path: |
             job1.md
             job2.md
@@ -46,4 +48,4 @@ jobs:
       - run: ls -al
       - uses: actions/download-artifact@master
         with:
-          name: my-artifact
+          name: my-artifact-job2
