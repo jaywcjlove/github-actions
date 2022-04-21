@@ -1,0 +1,29 @@
+name: needs
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  job1:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - run: echo "job 1" > job1.md
+      - run: ls -al
+  
+  job2:
+    needs: job1
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - run: echo "job 2" > job2.md
+      - run: ls -al
+  
+  job3:
+    needs: [job1, job2]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - run: echo "job 3" > job3.md
+      - run: ls -al
