@@ -28,9 +28,15 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: my-artifact
-          path: job2.md
-          
-  
+          path: job1.md
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: my-artifact
+          path: |
+            job1.md
+            job2.md
+
   job3:
     needs: [job1, job2]
     runs-on: ubuntu-18.04
@@ -41,4 +47,3 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: my-artifact
-          path: job3.md
