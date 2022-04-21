@@ -17,6 +17,8 @@ footer: |
 测试 GitHub 工作流，一些比较特殊的玩儿法。
 
 <!--idoc:ignore:start-->
+## 示例目录
+
 <!-- TOC -->
 
 - [常用实例](#常用实例)
@@ -25,6 +27,7 @@ footer: |
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
   - [步骤依赖作业](#步骤依赖作业)
+  - [步骤作业文件共享](#步骤作业文件共享)
   - [提交 NPM 包](#提交-npm-包)
   - [提交 docker 镜像](#提交-docker-镜像)
   - [提交 commit 到 master 分支](#提交-commit-到-master-分支)
