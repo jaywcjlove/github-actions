@@ -11,6 +11,11 @@ jobs:
       - uses: actions/checkout@master
       - run: echo "job 1" > job1.md
       - run: ls -al
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: my-artifact
+          path: job1.md
   
   job2:
     needs: job1
@@ -19,6 +24,12 @@ jobs:
       - uses: actions/checkout@master
       - run: echo "job 2" > job2.md
       - run: ls -al
+
+      - uses: actions/download-artifact@master
+        with:
+          name: my-artifact
+          path: job2.md
+          
   
   job3:
     needs: [job1, job2]
@@ -27,3 +38,7 @@ jobs:
       - uses: actions/checkout@master
       - run: echo "job 3" > job3.md
       - run: ls -al
+      - uses: actions/download-artifact@master
+        with:
+          name: my-artifact
+          path: job3.md
