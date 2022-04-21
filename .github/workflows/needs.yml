@@ -20,9 +20,9 @@ jobs:
       - run: mkdir -p pkg/job1/lib
       - run: mkdir -p pkg/job2/lib
       - run: mkdir -p pkg/job3/lib
-      - run: echo "job 1" > pkg/job1/lib/job1={1..3}.md
-      - run: echo "job 1" > pkg/job2/lib/job1={1..3}.md
-      - run: echo "job 1" > pkg/job3/lib/job1={1..3}.md
+      - run: echo "job 1" > pkg/job1/lib/job1-1.md
+      - run: echo "job 1" > pkg/job2/lib/job1-2.md
+      - run: echo "job 1" > pkg/job3/lib/job1-{1..3}.md
       - run: ls -al
 
       - uses: actions/upload-artifact@master
