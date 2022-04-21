@@ -17,7 +17,7 @@ footer: |
 测试 GitHub 工作流，一些比较特殊的玩儿法。
 
 <!--idoc:ignore:start-->
-## 示例目录
+## 目录
 
 <!-- TOC -->
 
