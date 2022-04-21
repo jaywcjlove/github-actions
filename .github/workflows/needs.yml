@@ -16,6 +16,20 @@ jobs:
         with:
           name: my-artifact
           path: job1.md
+
+      - run: mkdir -p pkg/job1/lib
+      - run: mkdir -p pkg/job2/lib
+      - run: mkdir -p pkg/job3/lib
+      - run: echo "job 1" > pkg/job1/lib/job1={1..3}.md
+      - run: echo "job 1" > pkg/job2/lib/job1={1..3}.md
+      - run: echo "job 1" > pkg/job3/lib/job1={1..3}.md
+      - run: ls -al
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: my-artifact-pkg
+          path: 
+            pkg/**/lib/*.md
   
   job2:
     needs: job1
@@ -46,7 +60,15 @@ jobs:
       - uses: actions/checkout@master
       - run: echo "job 3" > job3.md
       - run: ls -al
+
       - uses: actions/download-artifact@master
         with:
           name: my-artifact-job2
+
+      - run: ls -al
+
+      - uses: actions/download-artifact@master
+        with:
+          name: my-artifact-pkg
+
       - run: ls -al
