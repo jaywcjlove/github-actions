@@ -336,3 +336,18 @@ github.base_ref | string | 工作流程运行中拉取请求的 base_ref 或目�
 github.token | string | 代表仓库上安装的 GitHub 应用程序进行身份验证的令牌。 这在功能上等同于 GITHUB_TOKEN 密码。 更多信息请参阅“使用 GITHUB_TOKEN 验证身份”。
 github.workspace | string | 使用 checkout 操作时步骤的默认工作目录和仓库的默认位置。
 github.action | string | 正在运行的操作的名称。 在当前步骤运行脚本时，GitHub 删除特殊字符或使用名称 run。 如果在同一作业中多次使用相同的操作，则名称将包括带有序列号的后缀。 例如，运行的第一个脚本名称为 run1，则第二个脚本将命名为 run2。 同样，actions/checkout 第二次调用时将变成 actionscheckout2。
+
+
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/jaywcjlove/github-actions/graphs/contributors">
+  <img src="https://jaywcjlove.github.io/github-actions/CONTRIBUTORS.svg" />
+</a>
+
+Made with [action-contributors](https://github.com/jaywcjlove/github-action-contributors).
+
+## License
+
+Licensed under the MIT License.
