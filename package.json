@@ -1,20 +1,23 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "private": true,
   "name": "github-actions",
+  "description": "Github Actions",
   "version": "1.0.0",
-  "description": "<h1>Github Actions</h1>",
-  "main": "index.js",
   "scripts": {
-    "env": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "idoc --watch",
+    "build": "idoc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jaywcjlove/github-actions.git"
   },
-  "author": "jaywcjlove",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jaywcjlove/github-actions/issues"
-  },
-  "homepage": "https://github.com/jaywcjlove/github-actions#readme"
+  "keywords": [
+    "vim",
+    "github-actions",
+    "web"
+  ],
+  "dependencies": {
+    "idoc": "^1.10.7"
+  }
 }
