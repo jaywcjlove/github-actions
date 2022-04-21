@@ -49,3 +49,4 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: my-artifact-job2
+      - run: ls -al
