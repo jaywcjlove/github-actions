@@ -16,6 +16,13 @@ jobs:
       - run: npm install
       - run: npm run build
 
+      - name: Generate Contributors Images
+        uses: jaywcjlove/github-action-contributors@main
+        with:
+          filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
+          output: dist/CONTRIBUTORS.svg
+          avatarSize: 42
+
       - name: Deploy Website
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -24,12 +31,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
 
-      - name: Generate Contributors Images
-        uses: jaywcjlove/github-action-contributors@main
-        with:
-          filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
-          output: dist/CONTRIBUTORS.svg
-          avatarSize: 42
 
       # - name: Modify Version
       #   shell: bash
