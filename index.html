@@ -1,86 +1,296 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Github Actions Github Actions </title>
-  
-  <meta name="description" content="测试 GitHub 工作流，一些比较特殊的玩儿法。">
-  
-  
-  <meta name="keywords" content="vim,github-actions,web">
-  
-  <link rel="stylesheet" type="text/css" href="css/main.css?v=1650886056175">
-  <link rel="stylesheet" type="text/css" href="css/tocbot.css?v=1650886056175">
-  <link rel="stylesheet" type="text/css" href="css/media.css?v=1650886056175">
-  <link rel="stylesheet" type="text/css" href="css/sidebar.css?v=1650886056175">
-  <link rel="stylesheet" type="text/css" href="css/copy.css?v=1650886056175">
-  
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Actions Github Actions</title>
+    <meta name="description" content="测试 GitHub 工作流，一些比较特殊的玩儿法。">
+    <meta name="keywords" content="vim,github-actions,web">
+    <link rel="stylesheet" type="text/css" href="css/main.css?v=1.21.1">
+    <link rel="stylesheet" type="text/css" href="css/tocbot.css?v=1.21.1">
+    <link rel="stylesheet" type="text/css" href="css/media.css?v=1.21.1">
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css?v=1.21.1">
+    <link rel="stylesheet" type="text/css" href="css/copy.css?v=1.21.1">
+    <link rel="stylesheet" type="text/css" href="css/demo-preview.css?v=1.21.1">
     <link rel="icon" href="data:image/png;base64,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" type="image/x-icon">
-  
-  <script src="js/copy.js"></script>
-  <script src="js/dark-mode.js"></script>
-  <script src="js/markdown-style.js"></script>
-</head>
-<body id="idoctotop">
-  <a href="#idoctotop" class="gototop">top</a>
-<header class="header">
-  <article class="inner warpper">
-    <a class="logo" href="index.html">
-      
-        <img alt="Github Actions logo" src="data:image/png;base64,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">
-      
-      <span class="title">Github Actions</span>
-    </a>
-    <div class="content">
-      <ul class="menu">
-        
-        <li>
-          <a href="https://github.com/features/actions" target="__blank" class=""> 官方文档 </a>
-        </li>
-        
-      </ul>
-      
-        <a href="https://github.com/jaywcjlove/github-actions.git" target="_blank" rel="noopener noreferrer" title="Github" name="Github" class="github">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-          </svg>
-        </a>
-      
-      <dark-mode permanent></dark-mode>
-    </div>
-  </article>
-</header>
+    <script src="js/copy.js?v=1.21.1"></script>
+    <script src="js/dark-mode.js?v=1.21.1"></script>
+    <script src="js/markdown-style.js?v=1.21.1"></script>
+  </head>
+  <body id="idoctotop"><a href="#idoctotop" class="gototop">top</a>
+    <header class="header">
+      <article class="inner warpper"><a class="logo" href="index.html"><img alt="Github Actions logo" src="data:image/png;base64,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">
+<span class="title">Github Actions</span></a>
+        <div class="content">
+          <ul class="menu">
+            <li><a href="https://github.com/features/actions" target="__blank" class="">官方文档</a></li>
+          </ul><a href="https://github.com/jaywcjlove/github-actions.git" target="_blank" rel="noopener noreferrer" title="Github" name="Github" class="github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg></a>
+          <dark-mode permanent=""></dark-mode>
+        </div>
+      </article>
+    </header>
+    <div class="warpper-content warpper">
+      <markdown-style>
+        <!--idoc:config:
+        title: Github Actions
+        site: Github Actions
+        editButton: 
+          label: Edit this page on GitHub
+          url: https://github.com/jaywcjlove/github-actions/blob/master/
+        footer: |
+          Released under the MIT License. Copyright © 2022 Kenny Wong<br />
+          Generated by <a href="https://github.com/jaywcjlove/idoc" target="_blank">idoc</a> v{{idocVersion}}
+        -->
+        <p>测试 GitHub 工作流，一些比较特殊的玩儿法。</p>
+        <h2 id="常用实例"><a aria-hidden="true" tabindex="-1" href="#常用实例" class="anchor"><span class="icon icon-link"></span></a>常用实例</h2>
+        <p>GitHub actions 有四个基本的概念，如下：</p>
+        <ul>
+          <li>workflow （工作流程）：持续集成一次运行的过程，就是一个 workflow。</li>
+          <li>job （任务）：一个 workflow 由一个或多个 jobs 构成，含义是一次持续集成的运行，可以完成多个任务。</li>
+          <li>step（步骤）：每个 job 由多个 step 构成，一步步完成。</li>
+          <li>action （动作）：每个 step 可以依次执行一个或多个命令（action）。</li>
+        </ul>
+        <h3 id="配置文件"><a aria-hidden="true" tabindex="-1" href="#配置文件" class="anchor"><span class="icon icon-link"></span></a>配置文件</h3>
+        <p>GitHub Actions 采用 <a href="https://www.ruanyifeng.com/blog/2016/07/yaml.html"><code>YAML</code></a> 格式的配置文件叫做 workflow 文件，存放在代码仓库的 <code>.github/workflows</code> 目录。文件名可以任意取，但是后缀名统一为 <code>.yml</code>，比如 <code>ci.yml</code>。一个库可以有多个 <code>workflow</code> 文件。GitHub 只要发现 <code>.github/workflows</code> 目录里面有 <code>.yml</code> 文件，就会根据配置事件自动运行该文件。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">name</span><span class="token punctuation">:</span> GitHub Actions Demo
+</span><span class="code-line line-number" line="2"><span class="token key atrule">on</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="5">      <span class="token punctuation">-</span> main
+</span><span class="code-line line-number" line="6">
+</span><span class="code-line line-number" line="7"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="8">  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="9">    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span>
+</span><span class="code-line line-number" line="10">    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="11">      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
+</span><span class="code-line line-number" line="12">      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v3
+</span><span class="code-line line-number" line="13">        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="14">          <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token number">16</span>
+</span><span class="code-line line-number" line="15">
+</span><span class="code-line line-number" line="16">      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm install
+</span><span class="code-line line-number" line="17">
+</span><span class="code-line line-number" line="18">      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build
+</span></code><input type="hidden" value="name: GitHub Actions Demo
+on:
+  push:
+    branches:
+      - main
 
-<div class="warpper-content warpper  ">
-  
-  <markdown-style>
-    
-<!--idoc:config:
-title: Github Actions
-site: Github Actions
-editButton: 
-  label: Edit this page on GitHub
-  url: https://github.com/jaywcjlove/github-actions/blob/master/
-footer: |
-  Released under the MIT License. Copyright © 2022 Kenny Wong<br />
-  Generated by <a href="https://github.com/jaywcjlove/idoc" target="_blank">idoc</a> v{{idocVersion}}
--->
-<p>测试 GitHub 工作流，一些比较特殊的玩儿法。</p>
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-<h2 id="常用实例"><a aria-hidden="true" tabindex="-1" href="#常用实例" class="anchor"><span class="icon icon-link"></span></a>常用实例</h2>
-<h3 id="获取版本信息"><a aria-hidden="true" tabindex="-1" href="#获取版本信息" class="anchor"><span class="icon icon-link"></span></a>获取版本信息</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Test
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    # Strip git ref prefix from version
-</span></span><span class="code-line"><span class="token scalar string">    echo "${{ github.ref }}"
-</span></span><span class="code-line"><span class="token scalar string">    # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')</span>
-</span><span class="code-line">
-</span><span class="code-line">    <span class="token comment"># # Strip "v" prefix from tag name</span>
-</span><span class="code-line">    <span class="token comment"># [[ "${{ github.ref }}" == "refs/tags/"* ]] &#x26;&#x26; VERSION=$(echo $VERSION | sed -e 's/^v//')</span>
-</span><span class="code-line">    echo "$VERSION"
-</span></code><div onclick="copied(this)" data-code="- name: Test
+      - run: npm install
+
+      - run: npm run build
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="定触条件"><a aria-hidden="true" tabindex="-1" href="#定触条件" class="anchor"><span class="icon icon-link"></span></a>定触条件</h3>
+        <p><a href="https://docs.github.com/cn/actions/using-workflows/events-that-trigger-workflows"><code>on</code></a> 字段指定触发 <code>workflow</code> 的条件，通常是某些事件。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token comment"># push 事件触发 workflow</span>
+</span><span class="code-line line-number" line="2"><span class="token key atrule">on</span><span class="token punctuation">:</span> push
+</span><span class="code-line line-number" line="3">
+</span><span class="code-line line-number" line="4"><span class="token comment"># push 事件或 pull_request 事件都可以触发 workflow</span>
+</span><span class="code-line line-number" line="5"><span class="token key atrule">on</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>push<span class="token punctuation">,</span> pull_request<span class="token punctuation">]</span>
+</span><span class="code-line line-number" line="6">
+</span><span class="code-line line-number" line="7"><span class="token comment"># 只有在 main 分支 push 事件触发 workflow</span>
+</span><span class="code-line line-number" line="8"><span class="token key atrule">on</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="9">  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="10">    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="11">      <span class="token punctuation">-</span> main
+</span><span class="code-line line-number" line="12">
+</span><span class="code-line line-number" line="13"><span class="token comment"># push 事件触发 workflow，但是 docs 目录下的更改 push 事件不触发 workflow</span>
+</span><span class="code-line line-number" line="14"><span class="token key atrule">on</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="15">  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="16">    <span class="token key atrule">paths-ignore</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="17">      <span class="token punctuation">-</span> <span class="token string">'docs/**'</span>
+</span><span class="code-line line-number" line="18"><span class="token comment"># push 事件触发 workflow，</span>
+</span><span class="code-line line-number" line="19"><span class="token comment"># 包括 sub-project 目录或其子目录中的文件，触发 workflow</span>
+</span><span class="code-line line-number" line="20"><span class="token comment"># 除非该文件在 sub-project/docs 目录中，不触发 workflow</span>
+</span><span class="code-line line-number" line="21"><span class="token key atrule">on</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="22">  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="23">    <span class="token key atrule">paths</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="24">      <span class="token punctuation">-</span> <span class="token string">'sub-project/**'</span>
+</span><span class="code-line line-number" line="25">      <span class="token punctuation">-</span> <span class="token string">'!sub-project/docs/**'</span>
+</span><span class="code-line line-number" line="26"><span class="token comment"># 版本发布为 published 时运行工作流程。</span>
+</span><span class="code-line line-number" line="27"><span class="token key atrule">on</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="28">  <span class="token key atrule">release</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="29">    <span class="token key atrule">types</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>published<span class="token punctuation">]</span>
+</span></code><input type="hidden" value="# push 事件触发 workflow
+on: push
+
+# push 事件或 pull_request 事件都可以触发 workflow
+on: [push, pull_request]
+
+# 只有在 main 分支 push 事件触发 workflow
+on:
+  push:
+    branches:
+      - main
+
+# push 事件触发 workflow，但是 docs 目录下的更改 push 事件不触发 workflow
+on:
+  push:
+    paths-ignore:
+      - &#x27;docs/**&#x27;
+# push 事件触发 workflow，
+# 包括 sub-project 目录或其子目录中的文件，触发 workflow
+# 除非该文件在 sub-project/docs 目录中，不触发 workflow
+on:
+  push:
+    paths:
+      - &#x27;sub-project/**&#x27;
+      - &#x27;!sub-project/docs/**&#x27;
+# 版本发布为 published 时运行工作流程。
+on:
+  release:
+    types: [published]
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="多项任务"><a aria-hidden="true" tabindex="-1" href="#多项任务" class="anchor"><span class="icon icon-link"></span></a>多项任务</h3>
+        <p>通过 <code>jobs</code> (<code>jobs.&#x3C;job_id>.name</code>)字段，配置一项或多项需要执行的任务。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">my_first_job</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">    <span class="token key atrule">name</span><span class="token punctuation">:</span> My first job
+</span><span class="code-line line-number" line="4">  <span class="token key atrule">my_second_job</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="5">    <span class="token key atrule">name</span><span class="token punctuation">:</span> My second job
+</span></code><input type="hidden" value="jobs:
+  my_first_job:
+    name: My first job
+  my_second_job:
+    name: My second job
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="多项任务依赖关系"><a aria-hidden="true" tabindex="-1" href="#多项任务依赖关系" class="anchor"><span class="icon icon-link"></span></a>多项任务依赖关系</h3>
+        <p>通过 <code>needs</code> (<code>jobs.&#x3C;job_id>.needs</code>)字段，指定当前任务的依赖关系。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">job1</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">job2</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> job1
+</span><span class="code-line line-number" line="5">  <span class="token key atrule">job3</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="6">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>job1<span class="token punctuation">,</span> job2<span class="token punctuation">]</span>
+</span></code><input type="hidden" value="jobs:
+  job1:
+  job2:
+    needs: job1
+  job3:
+    needs: [job1, job2]
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <p>上面配置中，<code>job1</code> 必须先于 <code>job2</code> 完成，而 <code>job3</code> 等待 <code>job1</code> 和 <code>job2</code> 的完成才能运行。因此，这个 workflow 的运行顺序依次为：<code>job1</code>、<code>job2</code>、<code>job3</code>。</p>
+        <h3 id="指定每项任务的虚拟机环境"><a aria-hidden="true" tabindex="-1" href="#指定每项任务的虚拟机环境" class="anchor"><span class="icon icon-link"></span></a>指定每项任务的虚拟机环境</h3>
+        <p><code>runs-on</code> 字段指定运行所需要的虚拟机环境。⚠️ 它是必填字段。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span>
+</span></code><input type="hidden" value="runs-on: ubuntu-18.04
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span>
+</span></code><input type="hidden" value="jobs:
+  build:
+    runs-on: ubuntu-18.04
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <table>
+          <thead>
+            <tr>
+              <th><strong>虚拟环境</strong></th>
+              <th><strong>YAML 工作流程标签</strong></th>
+              <th><strong>注：</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Windows Server 2022</td>
+              <td><code>windows-latest</code> 或 <code>windows-2022</code></td>
+              <td><code>windows-latest</code> 标签目前使用的是 Windows Server 2022 运行器镜像</td>
+            </tr>
+            <tr>
+              <td>Windows Server 2019</td>
+              <td><code>windows-2019</code></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Ubuntu 22.04</td>
+              <td><code>ubuntu-22.04</code></td>
+              <td>Ubuntu 22.04 目前处于公开测试阶段。</td>
+            </tr>
+            <tr>
+              <td>Ubuntu 20.04</td>
+              <td><code>ubuntu-latest</code> 或 <code>ubuntu-20.04</code></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Ubuntu 18.04</td>
+              <td><code>ubuntu-18.04</code></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>macOS Monterey 12</td>
+              <td><code>macos-12</code></td>
+              <td>macOS 12 目前处于公开测试阶段。</td>
+            </tr>
+            <tr>
+              <td>macOS Big Sur 11</td>
+              <td><code>macos-latest</code> 或 <code>macos-11</code></td>
+              <td><code>macos-latest</code> 标签当前使用 macOS 11 运行器镜像。</td>
+            </tr>
+            <tr>
+              <td>macOS Catalina 10.15</td>
+              <td><code>macos-10.15</code></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 id="指定每项任务的步骤"><a aria-hidden="true" tabindex="-1" href="#指定每项任务的步骤" class="anchor"><span class="icon icon-link"></span></a>指定每项任务的步骤</h3>
+        <p><code>steps</code> 字段指定每个 Job 的运行步骤，可以包含一个或多个步骤。每个步骤都可以指定以下三个字段。</p>
+        <pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line line-number" line="1">jobs.<span class="token operator">&#x3C;</span>job_id<span class="token operator">></span>.steps.name：步骤名称。
+</span><span class="code-line line-number" line="2">jobs.<span class="token operator">&#x3C;</span>job_id<span class="token operator">></span>.steps.run：该步骤运行的命令或者 action。
+</span><span class="code-line line-number" line="3">jobs.<span class="token operator">&#x3C;</span>job_id<span class="token operator">></span>.steps.env：该步骤所需的环境变量。
+</span></code><input type="hidden" value="jobs.<job_id>.steps.name：步骤名称。
+jobs.<job_id>.steps.run：该步骤运行的命令或者 action。
+jobs.<job_id>.steps.env：该步骤所需的环境变量。
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="5">      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
+</span><span class="code-line line-number" line="6">      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v3
+</span><span class="code-line line-number" line="7">        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="8">          <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token number">16</span>
+</span><span class="code-line line-number" line="9">
+</span><span class="code-line line-number" line="10">      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm install
+</span><span class="code-line line-number" line="11">
+</span><span class="code-line line-number" line="12">      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build
+</span></code><input type="hidden" value="jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - run: npm install
+
+      - run: npm run build
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h2 id="常用实例-1"><a aria-hidden="true" tabindex="-1" href="#常用实例-1" class="anchor"><span class="icon icon-link"></span></a>常用实例</h2>
+        <h3 id="获取版本信息"><a aria-hidden="true" tabindex="-1" href="#获取版本信息" class="anchor"><span class="icon icon-link"></span></a>获取版本信息</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Test
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="3"><span class="token scalar string">    # Strip git ref prefix from version
+</span></span><span class="code-line line-number" line="4"><span class="token scalar string">    echo "${{ github.ref }}"
+</span></span><span class="code-line line-number" line="5"><span class="token scalar string">    # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')</span>
+</span><span class="code-line line-number" line="6">
+</span><span class="code-line line-number" line="7">    <span class="token comment"># # Strip "v" prefix from tag name</span>
+</span><span class="code-line line-number" line="8">    <span class="token comment"># [[ "${{ github.ref }}" == "refs/tags/"* ]] &#x26;&#x26; VERSION=$(echo $VERSION | sed -e 's/^v//')</span>
+</span><span class="code-line line-number" line="9">    echo "$VERSION"
+</span></code><input type="hidden" value="- name: Test
   run: |
     # Strip git ref prefix from version
     echo &#x22;${{ github.ref }}&#x22;
@@ -89,108 +299,110 @@ footer: |
     # # Strip &#x22;v&#x22; prefix from tag name
     # [[ &#x22;${{ github.ref }}&#x22; == &#x22;refs/tags/&#x22;* ]] &#x26;&#x26; VERSION=$(echo $VERSION | sed -e &#x27;s/^v//&#x27;)
     echo &#x22;$VERSION&#x22;
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="修改-packagejson"><a aria-hidden="true" tabindex="-1" href="#修改-packagejson" class="anchor"><span class="icon icon-link"></span></a>修改 package.json</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Modify Version
-</span><span class="code-line">  <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'</span>
-</span></code><div onclick="copied(this)" data-code="- name: Modify Version
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="修改-packagejson"><a aria-hidden="true" tabindex="-1" href="#修改-packagejson" class="anchor"><span class="icon icon-link"></span></a>修改 package.json</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Modify Version
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="4"><span class="token scalar string">    node -e 'var pkg = require("./package.json"); pkg.version= (new Date().getFullYear().toString().substr(2)) + "." + (new Date().getMonth() + 1) + "." + (new Date().getDate()); require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2))'</span>
+</span></code><input type="hidden" value="- name: Modify Version
   shell: bash
   run: |
     node -e &#x27;var pkg = require(&#x22;./package.json&#x22;); pkg.version= (new Date().getFullYear().toString().substr(2)) + &#x22;.&#x22; + (new Date().getMonth() + 1) + &#x22;.&#x22; + (new Date().getDate()); require(&#x22;fs&#x22;).writeFileSync(&#x22;./package.json&#x22;, JSON.stringify(pkg, null, 2))&#x27;
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="提交到-gh-pages-分支"><a aria-hidden="true" tabindex="-1" href="#提交到-gh-pages-分支" class="anchor"><span class="icon icon-link"></span></a>提交到 gh-pages 分支</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy
-</span><span class="code-line">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> peaceiris/actions<span class="token punctuation">-</span>gh<span class="token punctuation">-</span>pages@v3
-</span><span class="code-line">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">github_token</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GITHUB_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span><span class="code-line">    <span class="token key atrule">publish_dir</span><span class="token punctuation">:</span> ./build
-</span></code><div onclick="copied(this)" data-code="- name: Deploy
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="提交到-gh-pages-分支"><a aria-hidden="true" tabindex="-1" href="#提交到-gh-pages-分支" class="anchor"><span class="icon icon-link"></span></a>提交到 gh-pages 分支</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> peaceiris/actions<span class="token punctuation">-</span>gh<span class="token punctuation">-</span>pages@v3
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">github_token</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GITHUB_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span><span class="code-line line-number" line="5">    <span class="token key atrule">publish_dir</span><span class="token punctuation">:</span> ./build
+</span></code><input type="hidden" value="- name: Deploy
   uses: peaceiris/actions-gh-pages@v3
   with:
     github_token: ${{ secrets.GITHUB_TOKEN }}
     publish_dir: ./build
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="克隆带有-submodule-的仓库"><a aria-hidden="true" tabindex="-1" href="#克隆带有-submodule-的仓库" class="anchor"><span class="icon icon-link"></span></a>克隆带有 Submodule 的仓库</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
-</span><span class="code-line">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
-</span><span class="code-line">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">path</span><span class="token punctuation">:</span> main
-</span><span class="code-line">    <span class="token key atrule">submodules</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-</span></code><div onclick="copied(this)" data-code="- name: Checkout
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="克隆带有-submodule-的仓库"><a aria-hidden="true" tabindex="-1" href="#克隆带有-submodule-的仓库" class="anchor"><span class="icon icon-link"></span></a>克隆带有 Submodule 的仓库</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">path</span><span class="token punctuation">:</span> main
+</span><span class="code-line line-number" line="5">    <span class="token key atrule">submodules</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</span></code><input type="hidden" value="- name: Checkout
   uses: actions/checkout@v3
   with:
     path: main
     submodules: true
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p><code>submodules</code>：<code>true</code> 检出子模块或 <code>recursive</code> 递归检出子模块。</p>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Clone sub repository
-</span><span class="code-line">  <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-</span></span><span class="code-line"><span class="token scalar string">    # git submodule sync --recursive
-</span></span><span class="code-line"><span class="token scalar string">    # git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --remote --force --recursive --checkout ant.design</span>
-</span></code><div onclick="copied(this)" data-code="- name: Clone sub repository
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <p><code>submodules</code>：<code>true</code> 检出子模块或 <code>recursive</code> 递归检出子模块。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Clone sub repository
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">shell</span><span class="token punctuation">:</span> bash
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="4"><span class="token scalar string">    auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+</span></span><span class="code-line line-number" line="5"><span class="token scalar string">    # git submodule sync --recursive
+</span></span><span class="code-line line-number" line="6"><span class="token scalar string">    # git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --remote --force --recursive --checkout ant.design</span>
+</span></code><input type="hidden" value="- name: Clone sub repository
   shell: bash
   run: |
     auth_header=&#x22;$(git config --local --get http.https://github.com/.extraheader)&#x22;
     # git submodule sync --recursive
     # git -c &#x22;http.extraheader=$auth_header&#x22; -c protocol.version=2 submodule update --init --remote --force --recursive --checkout ant.design
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="步骤依赖作业"><a aria-hidden="true" tabindex="-1" href="#步骤依赖作业" class="anchor"><span class="icon icon-link"></span></a>步骤依赖作业</h3>
-<p>使用 <code>jobs.&#x3C;job_id>.needs</code> 识别在此作业运行之前必须成功完成的任何作业。它可以是一个字符串，也可以是字符串数组。 如果某个作业失败，则所有需要它的作业都会被跳过，除非这些作业使用让该作业继续的条件表达式。</p>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token key atrule">job1</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token key atrule">job2</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> job1
-</span><span class="code-line">  <span class="token key atrule">job3</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>job1<span class="token punctuation">,</span> job2<span class="token punctuation">]</span>
-</span></code><div onclick="copied(this)" data-code="jobs:
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="步骤依赖作业"><a aria-hidden="true" tabindex="-1" href="#步骤依赖作业" class="anchor"><span class="icon icon-link"></span></a>步骤依赖作业</h3>
+        <p>使用 <code>jobs.&#x3C;job_id>.needs</code> 识别在此作业运行之前必须成功完成的任何作业。它可以是一个字符串，也可以是字符串数组。 如果某个作业失败，则所有需要它的作业都会被跳过，除非这些作业使用让该作业继续的条件表达式。</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">job1</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">job2</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> job1
+</span><span class="code-line line-number" line="5">  <span class="token key atrule">job3</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="6">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>job1<span class="token punctuation">,</span> job2<span class="token punctuation">]</span>
+</span></code><input type="hidden" value="jobs:
   job1:
   job2:
     needs: job1
   job3:
     needs: [job1, job2]
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>在此示例中，<code>job1</code> 必须在 <code>job2</code> 开始之前成功完成，而 <code>job3</code> 要等待 <code>job1</code> 和 <code>job2</code> 完成。</p>
-<p>此示例中的作业按顺序运行：</p>
-<pre><code class="code-highlight"><span class="code-line">❶ job1
-</span><span class="code-line">❷ job2
-</span><span class="code-line">❸ job3
-</span></code><div onclick="copied(this)" data-code="❶ job1
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <p>在此示例中，<code>job1</code> 必须在 <code>job2</code> 开始之前成功完成，而 <code>job3</code> 要等待 <code>job1</code> 和 <code>job2</code> 完成。</p>
+        <p>此示例中的作业按顺序运行：</p>
+        <pre><code class="code-highlight"><span class="code-line line-number" line="1">❶ job1
+</span><span class="code-line line-number" line="2">❷ job2
+</span><span class="code-line line-number" line="3">❸ job3
+</span></code><input type="hidden" value="❶ job1
 ❷ job2
 ❸ job3
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token key atrule">job1</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token key atrule">job2</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> job1
-</span><span class="code-line">  <span class="token key atrule">job3</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">if</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> always() <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span><span class="code-line">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>job1<span class="token punctuation">,</span> job2<span class="token punctuation">]</span>
-</span></code><div onclick="copied(this)" data-code="jobs:
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">job1</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">job2</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> job1
+</span><span class="code-line line-number" line="5">  <span class="token key atrule">job3</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="6">    <span class="token key atrule">if</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> always() <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span><span class="code-line line-number" line="7">    <span class="token key atrule">needs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>job1<span class="token punctuation">,</span> job2<span class="token punctuation">]</span>
+</span></code><input type="hidden" value="jobs:
   job1:
   job2:
     needs: job1
   job3:
     if: ${{ always() }}
     needs: [job1, job2]
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>在此示例中，<code>job3</code> 使用 <code>always()</code> 条件表达式，因此它始终在 <code>job1</code> 和 <code>job2</code> 完成后运行，不管它们是否成功。</p>
-<h3 id="步骤作业文件共享"><a aria-hidden="true" tabindex="-1" href="#步骤作业文件共享" class="anchor"><span class="icon icon-link"></span></a>步骤作业文件共享</h3>
-<p>Artifacts 是 GitHub Actions 为您提供持久文件并在运行完成后使用它们或在作业（文档）之间共享的一种方式。</p>
-<p>要创建工件并使用它，您将需要不同的操作：上传和下载。
-要上传文件或目录，您只需像这样使用它：</p>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token key atrule">steps</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
-</span><span class="code-line">  <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> mkdir <span class="token punctuation">-</span>p path/to/artifact
-</span><span class="code-line">  <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> echo hello <span class="token punctuation">></span> path/to/artifact/world.txt
-</span><span class="code-line">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/upload<span class="token punctuation">-</span>artifact@v2
-</span><span class="code-line">    <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">      <span class="token key atrule">name</span><span class="token punctuation">:</span> my<span class="token punctuation">-</span>artifact
-</span><span class="code-line">      <span class="token key atrule">path</span><span class="token punctuation">:</span> path/to/artifact/world.txt
-</span></code><div onclick="copied(this)" data-code="steps:
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <p>在此示例中，<code>job3</code> 使用 <code>always()</code> 条件表达式，因此它始终在 <code>job1</code> 和 <code>job2</code> 完成后运行，不管它们是否成功。</p>
+        <h3 id="步骤作业文件共享"><a aria-hidden="true" tabindex="-1" href="#步骤作业文件共享" class="anchor"><span class="icon icon-link"></span></a>步骤作业文件共享</h3>
+        <p>Artifacts 是 GitHub Actions 为您提供持久文件并在运行完成后使用它们或在作业（文档）之间共享的一种方式。</p>
+        <p>
+          要创建工件并使用它，您将需要不同的操作：上传和下载。
+          要上传文件或目录，您只需像这样使用它：
+        </p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">steps</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+</span><span class="code-line line-number" line="3">  <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> mkdir <span class="token punctuation">-</span>p path/to/artifact
+</span><span class="code-line line-number" line="4">  <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> echo hello <span class="token punctuation">></span> path/to/artifact/world.txt
+</span><span class="code-line line-number" line="5">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/upload<span class="token punctuation">-</span>artifact@v2
+</span><span class="code-line line-number" line="6">    <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="7">      <span class="token key atrule">name</span><span class="token punctuation">:</span> my<span class="token punctuation">-</span>artifact
+</span><span class="code-line line-number" line="8">      <span class="token key atrule">path</span><span class="token punctuation">:</span> path/to/artifact/world.txt
+</span></code><input type="hidden" value="steps:
   - uses: actions/checkout@v2
   - run: mkdir -p path/to/artifact
   - run: echo hello > path/to/artifact/world.txt
@@ -198,57 +410,57 @@ footer: |
     with:
       name: my-artifact
       path: path/to/artifact/world.txt
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>然后下载 <code>artifact</code> 以使用它：</p>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token key atrule">steps</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
-</span><span class="code-line">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/download<span class="token punctuation">-</span>artifact@v2
-</span><span class="code-line">    <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">      <span class="token key atrule">name</span><span class="token punctuation">:</span> my<span class="token punctuation">-</span>artifact
-</span></code><div onclick="copied(this)" data-code="steps:
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <p>然后下载 <code>artifact</code> 以使用它：</p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">steps</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+</span><span class="code-line line-number" line="3">  <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/download<span class="token punctuation">-</span>artifact@v2
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="5">      <span class="token key atrule">name</span><span class="token punctuation">:</span> my<span class="token punctuation">-</span>artifact
+</span></code><input type="hidden" value="steps:
   - uses: actions/checkout@v2
   - uses: actions/download-artifact@v2
     with:
       name: my-artifact
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="提交-npm-包"><a aria-hidden="true" tabindex="-1" href="#提交-npm-包" class="anchor"><span class="icon icon-link"></span></a>提交 NPM 包</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm publish <span class="token punctuation">-</span><span class="token punctuation">-</span>access public
-</span><span class="code-line">  <span class="token key atrule">env</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">NODE_AUTH_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span>secrets.NPM_TOKEN<span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span></code><div onclick="copied(this)" data-code="- run: npm publish --access public
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="提交-npm-包"><a aria-hidden="true" tabindex="-1" href="#提交-npm-包" class="anchor"><span class="icon icon-link"></span></a>提交 NPM 包</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm publish <span class="token punctuation">-</span><span class="token punctuation">-</span>access public
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">env</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">    <span class="token key atrule">NODE_AUTH_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span>secrets.NPM_TOKEN<span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span></code><input type="hidden" value="- run: npm publish --access public
   env:
     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<p>获取 <code>NPM_TOKEN</code>，可以通过 <a href="https://www.npmjs.com/settings/wcjiang/tokens">npm</a> 账号创建 <code>token</code></p>
-<pre class="language-shell"><code class="language-shell code-highlight"><span class="code-line"><span class="token function">npm</span> token list <span class="token punctuation">[</span>--json<span class="token operator">|</span>--parseable<span class="token punctuation">]</span> <span class="token comment"># 查看</span>
-</span><span class="code-line"><span class="token function">npm</span> token create <span class="token punctuation">[</span>--read-only<span class="token punctuation">]</span> <span class="token punctuation">[</span>--cidr<span class="token operator">=</span><span class="token number">1.1</span>.1.1/24,2.2.2.2/16<span class="token punctuation">]</span> <span class="token comment"># 创建</span>
-</span><span class="code-line"><span class="token function">npm</span> token revoke <span class="token operator">&#x3C;</span>id<span class="token operator">|</span>token<span class="token operator">></span> <span class="token comment"># 撤销</span>
-</span></code><div onclick="copied(this)" data-code="npm token list [--json|--parseable] # 查看
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <p>获取 <code>NPM_TOKEN</code>，可以通过 <a href="https://www.npmjs.com/settings/wcjiang/tokens">npm</a> 账号创建 <code>token</code></p>
+        <pre class="language-shell"><code class="language-shell code-highlight"><span class="code-line line-number" line="1"><span class="token function">npm</span> token list <span class="token punctuation">[</span>--json<span class="token operator">|</span>--parseable<span class="token punctuation">]</span> <span class="token comment"># 查看</span>
+</span><span class="code-line line-number" line="2"><span class="token function">npm</span> token create <span class="token punctuation">[</span>--read-only<span class="token punctuation">]</span> <span class="token punctuation">[</span>--cidr<span class="token operator">=</span><span class="token number">1.1</span>.1.1/24,2.2.2.2/16<span class="token punctuation">]</span> <span class="token comment"># 创建</span>
+</span><span class="code-line line-number" line="3"><span class="token function">npm</span> token revoke <span class="token operator">&#x3C;</span>id<span class="token operator">|</span>token<span class="token operator">></span> <span class="token comment"># 撤销</span>
+</span></code><input type="hidden" value="npm token list [--json|--parseable] # 查看
 npm token create [--read-only] [--cidr=1.1.1.1/24,2.2.2.2/16] # 创建
 npm token revoke <id|token> # 撤销
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="提交-docker-镜像"><a aria-hidden="true" tabindex="-1" href="#提交-docker-镜像" class="anchor"><span class="icon icon-link"></span></a>提交 docker 镜像</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token comment"># https://www.basefactor.com/github-actions-docker</span>
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Docker login
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> docker login <span class="token punctuation">-</span>u $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token punctuation">-</span>p $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_PASSWORD <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Build ant.design image
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    cd ./ant\.design
-</span></span><span class="code-line"><span class="token scalar string">    docker build -t ant.design .</span>
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Tags &#x26; Push docs
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    # Strip git ref prefix from version
-</span></span><span class="code-line"><span class="token scalar string">    VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')</span>
-</span><span class="code-line">
-</span><span class="code-line">    <span class="token comment"># Strip "v" prefix from tag name</span>
-</span><span class="code-line">    <span class="token punctuation">[</span><span class="token punctuation">[</span> "$<span class="token punctuation">{</span><span class="token punctuation">{</span> github.ref <span class="token punctuation">}</span><span class="token punctuation">}</span>" == "refs/tags/"* <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token important">&#x26;&#x26;</span> VERSION=$(echo $VERSION <span class="token punctuation">|</span> sed <span class="token punctuation">-</span>e 's/^v//')
-</span><span class="code-line">
-</span><span class="code-line">    docker tag ant.design $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>$VERSION
-</span><span class="code-line">    docker tag ant.design $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>latest
-</span><span class="code-line">    docker push $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>$VERSION
-</span><span class="code-line">    docker push $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>latest
-</span></code><div onclick="copied(this)" data-code="# https://www.basefactor.com/github-actions-docker
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="提交-docker-镜像"><a aria-hidden="true" tabindex="-1" href="#提交-docker-镜像" class="anchor"><span class="icon icon-link"></span></a>提交 docker 镜像</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token comment"># https://www.basefactor.com/github-actions-docker</span>
+</span><span class="code-line line-number" line="2"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Docker login
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">run</span><span class="token punctuation">:</span> docker login <span class="token punctuation">-</span>u $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token punctuation">-</span>p $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_PASSWORD <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span><span class="code-line line-number" line="4">
+</span><span class="code-line line-number" line="5"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Build ant.design image
+</span><span class="code-line line-number" line="6">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="7"><span class="token scalar string">    cd ./ant\.design
+</span></span><span class="code-line line-number" line="8"><span class="token scalar string">    docker build -t ant.design .</span>
+</span><span class="code-line line-number" line="9"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Tags &#x26; Push docs
+</span><span class="code-line line-number" line="10">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="11"><span class="token scalar string">    # Strip git ref prefix from version
+</span></span><span class="code-line line-number" line="12"><span class="token scalar string">    VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')</span>
+</span><span class="code-line line-number" line="13">
+</span><span class="code-line line-number" line="14">    <span class="token comment"># Strip "v" prefix from tag name</span>
+</span><span class="code-line line-number" line="15">    <span class="token punctuation">[</span><span class="token punctuation">[</span> "$<span class="token punctuation">{</span><span class="token punctuation">{</span> github.ref <span class="token punctuation">}</span><span class="token punctuation">}</span>" == "refs/tags/"* <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token important">&#x26;&#x26;</span> VERSION=$(echo $VERSION <span class="token punctuation">|</span> sed <span class="token punctuation">-</span>e 's/^v//')
+</span><span class="code-line line-number" line="16">
+</span><span class="code-line line-number" line="17">    docker tag ant.design $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>$VERSION
+</span><span class="code-line line-number" line="18">    docker tag ant.design $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>latest
+</span><span class="code-line line-number" line="19">    docker push $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>$VERSION
+</span><span class="code-line line-number" line="20">    docker push $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DOCKER_USER <span class="token punctuation">}</span><span class="token punctuation">}</span>/ant.design<span class="token punctuation">:</span>latest
+</span></code><input type="hidden" value="# https://www.basefactor.com/github-actions-docker
 - name: Docker login
   run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
@@ -268,32 +480,32 @@ npm token revoke <id|token> # 撤销
     docker tag ant.design ${{ secrets.DOCKER_USER }}/ant.design:latest
     docker push ${{ secrets.DOCKER_USER }}/ant.design:$VERSION
     docker push ${{ secrets.DOCKER_USER }}/ant.design:latest
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="提交-commit-到-master-分支"><a aria-hidden="true" tabindex="-1" href="#提交-commit-到-master-分支" class="anchor"><span class="icon icon-link"></span></a>提交 commit 到 master 分支</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 生成一个文件，并将它提交到 master 分支
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    # Strip git ref prefix from version
-</span></span><span class="code-line"><span class="token scalar string">    VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-</span></span><span class="code-line"><span class="token scalar string">    COMMIT=released-${VERSION}
-</span></span><span class="code-line"><span class="token scalar string">    # Strip "v" prefix from tag name
-</span></span><span class="code-line"><span class="token scalar string">    [[ "${{ github.ref }}" == "refs/tags/"* ]] &#x26;&#x26; VERSION=$(echo $VERSION | sed -e 's/^v//')
-</span></span><span class="code-line"><span class="token scalar string">    echo "输出版本号：$VERSION"
-</span></span><span class="code-line"><span class="token scalar string">    # 将版本输出到当前 VERSION 文件中
-</span></span><span class="code-line"><span class="token scalar string">    echo "$VERSION" > VERSION
-</span></span><span class="code-line"><span class="token scalar string">    echo "1. 输出Commit：$commit"
-</span></span><span class="code-line"><span class="token scalar string">    echo "2. Released $VERSION"
-</span></span><span class="code-line"><span class="token scalar string">    git fetch
-</span></span><span class="code-line"><span class="token scalar string">    git config --local user.email "action@github.com"
-</span></span><span class="code-line"><span class="token scalar string">    git config --local user.name "GitHub Action"
-</span></span><span class="code-line"><span class="token scalar string">    git add .
-</span></span><span class="code-line"><span class="token scalar string">    git commit -am $COMMIT
-</span></span><span class="code-line"><span class="token scalar string">    git branch -av
-</span></span><span class="code-line"><span class="token scalar string">    git pull origin master</span>
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 将上面的提交 push 到 master 分支
-</span><span class="code-line">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> ad<span class="token punctuation">-</span>m/github<span class="token punctuation">-</span>push<span class="token punctuation">-</span>action@master
-</span><span class="code-line">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">github_token</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GITHUB_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span></code><div onclick="copied(this)" data-code="- name: 生成一个文件，并将它提交到 master 分支
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="提交-commit-到-master-分支"><a aria-hidden="true" tabindex="-1" href="#提交-commit-到-master-分支" class="anchor"><span class="icon icon-link"></span></a>提交 commit 到 master 分支</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 生成一个文件，并将它提交到 master 分支
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="3"><span class="token scalar string">    # Strip git ref prefix from version
+</span></span><span class="code-line line-number" line="4"><span class="token scalar string">    VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+</span></span><span class="code-line line-number" line="5"><span class="token scalar string">    COMMIT=released-${VERSION}
+</span></span><span class="code-line line-number" line="6"><span class="token scalar string">    # Strip "v" prefix from tag name
+</span></span><span class="code-line line-number" line="7"><span class="token scalar string">    [[ "${{ github.ref }}" == "refs/tags/"* ]] &#x26;&#x26; VERSION=$(echo $VERSION | sed -e 's/^v//')
+</span></span><span class="code-line line-number" line="8"><span class="token scalar string">    echo "输出版本号：$VERSION"
+</span></span><span class="code-line line-number" line="9"><span class="token scalar string">    # 将版本输出到当前 VERSION 文件中
+</span></span><span class="code-line line-number" line="10"><span class="token scalar string">    echo "$VERSION" > VERSION
+</span></span><span class="code-line line-number" line="11"><span class="token scalar string">    echo "1. 输出Commit：$commit"
+</span></span><span class="code-line line-number" line="12"><span class="token scalar string">    echo "2. Released $VERSION"
+</span></span><span class="code-line line-number" line="13"><span class="token scalar string">    git fetch
+</span></span><span class="code-line line-number" line="14"><span class="token scalar string">    git config --local user.email "action@github.com"
+</span></span><span class="code-line line-number" line="15"><span class="token scalar string">    git config --local user.name "GitHub Action"
+</span></span><span class="code-line line-number" line="16"><span class="token scalar string">    git add .
+</span></span><span class="code-line line-number" line="17"><span class="token scalar string">    git commit -am $COMMIT
+</span></span><span class="code-line line-number" line="18"><span class="token scalar string">    git branch -av
+</span></span><span class="code-line line-number" line="19"><span class="token scalar string">    git pull origin master</span>
+</span><span class="code-line line-number" line="20"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 将上面的提交 push 到 master 分支
+</span><span class="code-line line-number" line="21">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> ad<span class="token punctuation">-</span>m/github<span class="token punctuation">-</span>push<span class="token punctuation">-</span>action@master
+</span><span class="code-line line-number" line="22">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="23">    <span class="token key atrule">github_token</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GITHUB_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span></code><input type="hidden" value="- name: 生成一个文件，并将它提交到 master 分支
   run: |
     # Strip git ref prefix from version
     VERSION=$(echo &#x22;${{ github.ref }}&#x22; | sed -e &#x27;s,.*/\(.*\),\1,&#x27;)
@@ -316,32 +528,32 @@ npm token revoke <id|token> # 撤销
   uses: ad-m/github-push-action@master
   with:
     github_token: ${{ secrets.GITHUB_TOKEN }}
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="nodejs"><a aria-hidden="true" tabindex="-1" href="#nodejs" class="anchor"><span class="icon icon-link"></span></a>Node.js</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Setup Node
-</span><span class="code-line">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v2
-</span><span class="code-line">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token number">14</span>
-</span></code><div onclick="copied(this)" data-code="- name: Setup Node
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="nodejs"><a aria-hidden="true" tabindex="-1" href="#nodejs" class="anchor"><span class="icon icon-link"></span></a>Node.js</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Setup Node
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v2
+</span><span class="code-line line-number" line="3">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="4">    <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token number">14</span>
+</span></code><input type="hidden" value="- name: Setup Node
   uses: actions/setup-node@v2
   with:
     node-version: 14
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token key atrule">strategy</span><span class="token punctuation">:</span>
-</span><span class="code-line">  <span class="token key atrule">matrix</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>10.x<span class="token punctuation">,</span> 12.x<span class="token punctuation">,</span> 14.x<span class="token punctuation">]</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token key atrule">steps</span><span class="token punctuation">:</span>
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Use Node.js $<span class="token punctuation">{</span><span class="token punctuation">{</span> matrix.node<span class="token punctuation">-</span>version <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span><span class="code-line">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v1
-</span><span class="code-line">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">node-version</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> matrix.node<span class="token punctuation">-</span>version <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build <span class="token punctuation">-</span><span class="token punctuation">-</span>if<span class="token punctuation">-</span>present
-</span><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm test
-</span><span class="code-line">
-</span></code><div onclick="copied(this)" data-code="strategy:
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token key atrule">strategy</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">matrix</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">    <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>10.x<span class="token punctuation">,</span> 12.x<span class="token punctuation">,</span> 14.x<span class="token punctuation">]</span>
+</span><span class="code-line line-number" line="4">
+</span><span class="code-line line-number" line="5"><span class="token key atrule">steps</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="6"><span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+</span><span class="code-line line-number" line="7"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Use Node.js $<span class="token punctuation">{</span><span class="token punctuation">{</span> matrix.node<span class="token punctuation">-</span>version <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span><span class="code-line line-number" line="8">  <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v1
+</span><span class="code-line line-number" line="9">  <span class="token key atrule">with</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="10">    <span class="token key atrule">node-version</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> matrix.node<span class="token punctuation">-</span>version <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span><span class="code-line line-number" line="11"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci
+</span><span class="code-line line-number" line="12"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build <span class="token punctuation">-</span><span class="token punctuation">-</span>if<span class="token punctuation">-</span>present
+</span><span class="code-line line-number" line="13"><span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm test
+</span><span class="code-line line-number" line="14">
+</span></code><input type="hidden" value="strategy:
   matrix:
     node-version: [10.x, 12.x, 14.x]
 
@@ -355,20 +567,20 @@ steps:
 - run: npm run build --if-present
 - run: npm test
 
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h3 id="同步-gitee"><a aria-hidden="true" tabindex="-1" href="#同步-gitee" class="anchor"><span class="icon icon-link"></span></a>同步 Gitee</h3>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Sync to Gitee
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-</span></span><span class="code-line"><span class="token scalar string">    mirror() {
-</span></span><span class="code-line"><span class="token scalar string">      git clone "https://github.com/$1/$2"
-</span></span><span class="code-line"><span class="token scalar string">      cd "$2"
-</span></span><span class="code-line"><span class="token scalar string">      git remote add gitee "https://jaywcjlove:${{ secrets.GITEE_TOKEN }}@gitee.com/uiw/$2.git"
-</span></span><span class="code-line"><span class="token scalar string">      git remote set-head origin -d
-</span></span><span class="code-line"><span class="token scalar string">      git push gitee --prune +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
-</span></span><span class="code-line"><span class="token scalar string">      cd ..
-</span></span><span class="code-line"><span class="token scalar string">    }
-</span></span><span class="code-line"><span class="token scalar string">    mirror uiwjs uiw</span>
-</span></code><div onclick="copied(this)" data-code="- name: Sync to Gitee
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h3 id="同步-gitee"><a aria-hidden="true" tabindex="-1" href="#同步-gitee" class="anchor"><span class="icon icon-link"></span></a>同步 Gitee</h3>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Sync to Gitee
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+</span></span><span class="code-line line-number" line="3"><span class="token scalar string">    mirror() {
+</span></span><span class="code-line line-number" line="4"><span class="token scalar string">      git clone "https://github.com/$1/$2"
+</span></span><span class="code-line line-number" line="5"><span class="token scalar string">      cd "$2"
+</span></span><span class="code-line line-number" line="6"><span class="token scalar string">      git remote add gitee "https://jaywcjlove:${{ secrets.GITEE_TOKEN }}@gitee.com/uiw/$2.git"
+</span></span><span class="code-line line-number" line="7"><span class="token scalar string">      git remote set-head origin -d
+</span></span><span class="code-line line-number" line="8"><span class="token scalar string">      git push gitee --prune +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
+</span></span><span class="code-line line-number" line="9"><span class="token scalar string">      cd ..
+</span></span><span class="code-line line-number" line="10"><span class="token scalar string">    }
+</span></span><span class="code-line line-number" line="11"><span class="token scalar string">    mirror uiwjs uiw</span>
+</span></code><input type="hidden" value="- name: Sync to Gitee
   run: |
     mirror() {
       git clone &#x22;https://github.com/$1/$2&#x22;
@@ -379,349 +591,260 @@ steps:
       cd ..
     }
     mirror uiwjs uiw
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h2 id="环境变量"><a aria-hidden="true" tabindex="-1" href="#环境变量" class="anchor"><span class="icon icon-link"></span></a>环境变量</h2>
-<blockquote>
-<p><a href="https://help.github.com/cn/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables">默认环境变量</a></p>
-</blockquote>
-<p>强烈建议操作使用环境变量访问文件系统，而非使用硬编码的文件路径。 GitHub 设置供操作用于所有运行器环境中的环境变量。</p>
-<h3 id="默认环境变量"><a aria-hidden="true" tabindex="-1" href="#默认环境变量" class="anchor"><span class="icon icon-link"></span></a>默认环境变量</h3>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th>环境变量</th><th>描述</th></tr></thead><tbody><tr><td>CI</td><td>始终设置为 true。</td></tr><tr><td>HOME</td><td>用于存储用户数据的 GitHub 主目录路径。 例如 /github/home。</td></tr><tr><td>GITHUB_WORKFLOW</td><td>工作流程的名称。</td></tr><tr><td>GITHUB_RUN_ID</td><td>仓库中每个运行的唯一编号。 如果您重新执行工作流程运行，此编号不变。</td></tr><tr><td>GITHUB_RUN_NUMBER</td><td>仓库中特定工作流程每个运行的唯一编号。 此编号从 1（对应于工作流程的第一个运行）开始，然后随着每个新的运行而递增。 如果您重新执行工作流程运行，此编号不变。</td></tr><tr><td>GITHUB_ACTION</td><td>操作唯一的标识符 (id)。</td></tr><tr><td>GITHUB_ACTIONS</td><td>当 GitHub 操作 运行工作流程时，始终设置为 true。 您可以使用此变量来区分测试是在本地运行还是通过 GitHub 操作 运行。</td></tr><tr><td>GITHUB_ACTOR</td><td>发起工作流程的个人或应用程序的名称。 例如 octocat。</td></tr><tr><td>GITHUB_REPOSITORY</td><td>所有者和仓库名称。 例如 octocat/Hello-World。</td></tr><tr><td>GITHUB_EVENT_NAME</td><td>触发工作流程的 web 挂钩事件的名称。</td></tr><tr><td>GITHUB_EVENT_PATH</td><td>具有完整 web 挂钩事件有效负载的文件路径。 例如 /github/workflow/event.json。</td></tr><tr><td>GITHUB_WORKSPACE</td><td>GitHub 工作空间目录路径。 如果您的工作流程使用 <a href="https://github.com/actions/checkout">actions/checkout</a> 操作，工作空间目录将包含存储仓库副本的子目录。 如果不使用 <a href="https://github.com/actions/checkout">actions/checkout</a> 操作，该目录将为空。 例如 /home</td></tr><tr><td>GITHUB_SHA</td><td>触发工作流程的提交 SHA。 例如 ffac537e6cbbf934b08745a378932722df287a53。</td></tr><tr><td>GITHUB_REF</td><td>触发工作流程的分支或标记参考。 例如 refs/heads/feature-branch-1。 如果分支或标记都不适用于事件类型，则变量不会存在。</td></tr><tr><td>GITHUB_HEAD_REF</td><td>仅为复刻的仓库设置。 头部仓库的分支。</td></tr><tr><td>GITHUB_BASE_REF</td><td>仅为复刻的仓库设置。 基础仓库的分支。</td></tr></tbody></table>
-<h3 id="自定义环境变量"><a aria-hidden="true" tabindex="-1" href="#自定义环境变量" class="anchor"><span class="icon icon-link"></span></a>自定义环境变量</h3>
-<blockquote>
-<p>注： <code>GitHub</code> 会保留 <code>GITHUB_</code> 环境变量前缀供 <code>GitHub</code> 内部使用。 设置有 <code>GITHUB_</code> 前缀的环境变量或密码将导致错误。</p>
-</blockquote>
-<p>在 <code>https://github.com/&#x3C;用户名>/&#x3C;项目名称>/settings/secrets</code> 中添加 <code>secrets</code> <code>NODE_API_TOKEN</code>，在工作流中设置环境变量 <a href="https://github.com/jaywcjlove/github-actions/blob/799b232fca3d9df0272eaa12610f9ebfca51b288/.github/workflows/ci.yml#L46"><code>NODE_API_TOKEN</code></a></p>
-<pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 测试 nodejs 获取环境变量
-</span><span class="code-line">  <span class="token key atrule">env</span><span class="token punctuation">:</span>
-</span><span class="code-line">    <span class="token key atrule">NODE_API_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.NODE_API_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
-</span><span class="code-line">  <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run env
-</span></code><div onclick="copied(this)" data-code="- name: 测试 nodejs 获取环境变量
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h2 id="环境变量"><a aria-hidden="true" tabindex="-1" href="#环境变量" class="anchor"><span class="icon icon-link"></span></a>环境变量</h2>
+        <blockquote>
+          <p><a href="https://help.github.com/cn/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables">默认环境变量</a></p>
+        </blockquote>
+        <p>强烈建议操作使用环境变量访问文件系统，而非使用硬编码的文件路径。 GitHub 设置供操作用于所有运行器环境中的环境变量。</p>
+        <h3 id="默认环境变量"><a aria-hidden="true" tabindex="-1" href="#默认环境变量" class="anchor"><span class="icon icon-link"></span></a>默认环境变量</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>环境变量</th>
+              <th>描述</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CI</td>
+              <td>始终设置为 true。</td>
+            </tr>
+            <tr>
+              <td>HOME</td>
+              <td>用于存储用户数据的 GitHub 主目录路径。 例如 /github/home。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_WORKFLOW</td>
+              <td>工作流程的名称。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_RUN_ID</td>
+              <td>仓库中每个运行的唯一编号。 如果您重新执行工作流程运行，此编号不变。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_RUN_NUMBER</td>
+              <td>仓库中特定工作流程每个运行的唯一编号。 此编号从 1（对应于工作流程的第一个运行）开始，然后随着每个新的运行而递增。 如果您重新执行工作流程运行，此编号不变。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_ACTION</td>
+              <td>操作唯一的标识符 (id)。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_ACTIONS</td>
+              <td>当 GitHub 操作 运行工作流程时，始终设置为 true。 您可以使用此变量来区分测试是在本地运行还是通过 GitHub 操作 运行。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_ACTOR</td>
+              <td>发起工作流程的个人或应用程序的名称。 例如 octocat。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_REPOSITORY</td>
+              <td>所有者和仓库名称。 例如 octocat/Hello-World。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_EVENT_NAME</td>
+              <td>触发工作流程的 web 挂钩事件的名称。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_EVENT_PATH</td>
+              <td>具有完整 web 挂钩事件有效负载的文件路径。 例如 /github/workflow/event.json。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_WORKSPACE</td>
+              <td>GitHub 工作空间目录路径。 如果您的工作流程使用 <a href="https://github.com/actions/checkout">actions/checkout</a> 操作，工作空间目录将包含存储仓库副本的子目录。 如果不使用 <a href="https://github.com/actions/checkout">actions/checkout</a> 操作，该目录将为空。 例如 /home</td>
+            </tr>
+            <tr>
+              <td>GITHUB_SHA</td>
+              <td>触发工作流程的提交 SHA。 例如 ffac537e6cbbf934b08745a378932722df287a53。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_REF</td>
+              <td>触发工作流程的分支或标记参考。 例如 refs/heads/feature-branch-1。 如果分支或标记都不适用于事件类型，则变量不会存在。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_HEAD_REF</td>
+              <td>仅为复刻的仓库设置。 头部仓库的分支。</td>
+            </tr>
+            <tr>
+              <td>GITHUB_BASE_REF</td>
+              <td>仅为复刻的仓库设置。 基础仓库的分支。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 id="自定义环境变量"><a aria-hidden="true" tabindex="-1" href="#自定义环境变量" class="anchor"><span class="icon icon-link"></span></a>自定义环境变量</h3>
+        <blockquote>
+          <p>注： <code>GitHub</code> 会保留 <code>GITHUB_</code> 环境变量前缀供 <code>GitHub</code> 内部使用。 设置有 <code>GITHUB_</code> 前缀的环境变量或密码将导致错误。</p>
+        </blockquote>
+        <p>在 <code>https://github.com/&#x3C;用户名>/&#x3C;项目名称>/settings/secrets</code> 中添加 <code>secrets</code> <code>NODE_API_TOKEN</code>，在工作流中设置环境变量 <a href="https://github.com/jaywcjlove/github-actions/blob/799b232fca3d9df0272eaa12610f9ebfca51b288/.github/workflows/ci.yml#L46"><code>NODE_API_TOKEN</code></a></p>
+        <pre class="language-yml"><code class="language-yml code-highlight"><span class="code-line line-number" line="1"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 测试 nodejs 获取环境变量
+</span><span class="code-line line-number" line="2">  <span class="token key atrule">env</span><span class="token punctuation">:</span>
+</span><span class="code-line line-number" line="3">    <span class="token key atrule">NODE_API_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.NODE_API_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</span><span class="code-line line-number" line="4">  <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run env
+</span></code><input type="hidden" value="- name: 测试 nodejs 获取环境变量
   env:
     NODE_API_TOKEN: ${{ secrets.NODE_API_TOKEN }}
   run: npm run env
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-<h2 id="github-上下文"><a aria-hidden="true" tabindex="-1" href="#github-上下文" class="anchor"><span class="icon icon-link"></span></a>Github 上下文</h2>
-<blockquote>
-<p><a href="https://help.github.com/cn/actions/reference/context-and-expression-syntax-for-github-actions">Github 上下文</a></p>
-</blockquote>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th>属性名称</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>github</td><td>object</td><td>工作流程中任何作业或步骤期间可用的顶层上下文。</td></tr><tr><td>github.event</td><td>object</td><td>完整事件 web 挂钩有效负载。 更多信息请参阅“触发工作流程的事件”。</td></tr><tr><td>github.event_path</td><td>string</td><td>运行器上完整事件 web 挂钩有效负载的路径。</td></tr><tr><td>github.workflow</td><td>string</td><td>工作流程的名称。 如果工作流程文件未指定 name，此属性的值将是仓库中工作流程文件的完整路径。</td></tr><tr><td>github.job</td><td>string</td><td>当前作业的 job_id。</td></tr><tr><td>github.run_id</td><td>string</td><td>仓库中每个运行的唯一编号。 如果您重新执行工作流程运行，此编号不变。</td></tr><tr><td>github.run_number</td><td>string</td><td>仓库中特定工作流程每个运行的唯一编号。 此编号从 1（对应于工作流程的第一个运行）开始，然后随着每个新的运行而递增。 如果您重新执行工作流程运行，此编号不变。</td></tr><tr><td>github.actor</td><td>string</td><td>发起工作流程运行的用户的登录名。</td></tr><tr><td>github.repository</td><td>string</td><td>所有者和仓库名称。 例如 Codertocat/Hello-World。</td></tr><tr><td>github.repository_owner</td><td>string</td><td>仓库所有者的名称。 例如 Codertocat。</td></tr><tr><td>github.event_name</td><td>string</td><td>触发工作流程运行的事件的名称。</td></tr><tr><td>github.sha</td><td>string</td><td>触发工作流程的提交 SHA。</td></tr><tr><td>github.ref</td><td>string</td><td>触发工作流程的分支或标记参考。</td></tr><tr><td>github.head_ref</td><td>string</td><td>工作流程运行中拉取请求的 head_ref 或来源分支。 此属性仅在触发工作流程运行的事件为 pull_request 时才可用。</td></tr><tr><td>github.base_ref</td><td>string</td><td>工作流程运行中拉取请求的 base_ref 或目标分支。 此属性仅在触发工作流程运行的事件为 pull_request 时才可用。</td></tr><tr><td>github.token</td><td>string</td><td>代表仓库上安装的 GitHub 应用程序进行身份验证的令牌。 这在功能上等同于 GITHUB_TOKEN 密码。 更多信息请参阅“使用 GITHUB_TOKEN 验证身份”。</td></tr><tr><td>github.workspace</td><td>string</td><td>使用 checkout 操作时步骤的默认工作目录和仓库的默认位置。</td></tr><tr><td>github.action</td><td>string</td><td>正在运行的操作的名称。 在当前步骤运行脚本时，GitHub 删除特殊字符或使用名称 run。 如果在同一作业中多次使用相同的操作，则名称将包括带有序列号的后缀。 例如，运行的第一个脚本名称为 run1，则第二个脚本将命名为 run2。 同样，actions/checkout 第二次调用时将变成 actionscheckout2。</td></tr></tbody></table>
-<h2 id="contributors"><a aria-hidden="true" tabindex="-1" href="#contributors" class="anchor"><span class="icon icon-link"></span></a>Contributors</h2>
-<p>As always, thanks to our amazing contributors!</p>
-<a href="https://github.com/jaywcjlove/github-actions/graphs/contributors">
-  <img src="https://jaywcjlove.github.io/github-actions/CONTRIBUTORS.svg">
-</a>
-<p>Made with <a href="https://github.com/jaywcjlove/github-action-contributors">action-contributors</a>.</p>
-<h2 id="license"><a aria-hidden="true" tabindex="-1" href="#license" class="anchor"><span class="icon icon-link"></span></a>License</h2>
-<p>Licensed under the MIT License.</p>
-    
-
-
-
-<section class="article-footer">
-  <a href="https://github.com/jaywcjlove/github-actions/blob/master/README.md" class="edit-button" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-    </svg>
-    <span>Edit this page on GitHub</span>
-  </a>
-  
-  <span class="atime">2022/04/25</span>
-  
-</section>
-
-  </markdown-style>
-  
-<nav class="tocs">
-  <aside class="inner toc">
-    <ol class="tocs-list">
-    
-      <li>
-        <a href="#常用实例" class="tocs-link">常用实例</a>
-        
-          <ol class="tocs-list is-collapsed">
-            
-              <li>
-                <a href="#获取版本信息" class="tocs-link">获取版本信息</a>
-                
-              </li>
-            
-              <li>
-                <a href="#修改-packagejson" class="tocs-link">修改 package.json</a>
-                
-              </li>
-            
-              <li>
-                <a href="#提交到-gh-pages-分支" class="tocs-link">提交到 gh-pages 分支</a>
-                
-              </li>
-            
-              <li>
-                <a href="#克隆带有-submodule-的仓库" class="tocs-link">克隆带有 Submodule 的仓库</a>
-                
-              </li>
-            
-              <li>
-                <a href="#步骤依赖作业" class="tocs-link">步骤依赖作业</a>
-                
-              </li>
-            
-              <li>
-                <a href="#步骤作业文件共享" class="tocs-link">步骤作业文件共享</a>
-                
-              </li>
-            
-              <li>
-                <a href="#提交-npm-包" class="tocs-link">提交 NPM 包</a>
-                
-              </li>
-            
-              <li>
-                <a href="#提交-docker-镜像" class="tocs-link">提交 docker 镜像</a>
-                
-              </li>
-            
-              <li>
-                <a href="#提交-commit-到-master-分支" class="tocs-link">提交 commit 到 master 分支</a>
-                
-              </li>
-            
-              <li>
-                <a href="#nodejs" class="tocs-link">Node.js</a>
-                
-              </li>
-            
-              <li>
-                <a href="#同步-gitee" class="tocs-link">同步 Gitee</a>
-                
-              </li>
-            
+"><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+        <h2 id="github-上下文"><a aria-hidden="true" tabindex="-1" href="#github-上下文" class="anchor"><span class="icon icon-link"></span></a>Github 上下文</h2>
+        <blockquote>
+          <p><a href="https://help.github.com/cn/actions/reference/context-and-expression-syntax-for-github-actions">Github 上下文</a></p>
+        </blockquote>
+        <table>
+          <thead>
+            <tr>
+              <th>属性名称</th>
+              <th>类型</th>
+              <th>描述</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>github</td>
+              <td>object</td>
+              <td>工作流程中任何作业或步骤期间可用的顶层上下文。</td>
+            </tr>
+            <tr>
+              <td>github.event</td>
+              <td>object</td>
+              <td>完整事件 web 挂钩有效负载。 更多信息请参阅“触发工作流程的事件”。</td>
+            </tr>
+            <tr>
+              <td>github.event_path</td>
+              <td>string</td>
+              <td>运行器上完整事件 web 挂钩有效负载的路径。</td>
+            </tr>
+            <tr>
+              <td>github.workflow</td>
+              <td>string</td>
+              <td>工作流程的名称。 如果工作流程文件未指定 name，此属性的值将是仓库中工作流程文件的完整路径。</td>
+            </tr>
+            <tr>
+              <td>github.job</td>
+              <td>string</td>
+              <td>当前作业的 job_id。</td>
+            </tr>
+            <tr>
+              <td>github.run_id</td>
+              <td>string</td>
+              <td>仓库中每个运行的唯一编号。 如果您重新执行工作流程运行，此编号不变。</td>
+            </tr>
+            <tr>
+              <td>github.run_number</td>
+              <td>string</td>
+              <td>仓库中特定工作流程每个运行的唯一编号。 此编号从 1（对应于工作流程的第一个运行）开始，然后随着每个新的运行而递增。 如果您重新执行工作流程运行，此编号不变。</td>
+            </tr>
+            <tr>
+              <td>github.actor</td>
+              <td>string</td>
+              <td>发起工作流程运行的用户的登录名。</td>
+            </tr>
+            <tr>
+              <td>github.repository</td>
+              <td>string</td>
+              <td>所有者和仓库名称。 例如 Codertocat/Hello-World。</td>
+            </tr>
+            <tr>
+              <td>github.repository_owner</td>
+              <td>string</td>
+              <td>仓库所有者的名称。 例如 Codertocat。</td>
+            </tr>
+            <tr>
+              <td>github.event_name</td>
+              <td>string</td>
+              <td>触发工作流程运行的事件的名称。</td>
+            </tr>
+            <tr>
+              <td>github.sha</td>
+              <td>string</td>
+              <td>触发工作流程的提交 SHA。</td>
+            </tr>
+            <tr>
+              <td>github.ref</td>
+              <td>string</td>
+              <td>触发工作流程的分支或标记参考。</td>
+            </tr>
+            <tr>
+              <td>github.head_ref</td>
+              <td>string</td>
+              <td>工作流程运行中拉取请求的 head_ref 或来源分支。 此属性仅在触发工作流程运行的事件为 pull_request 时才可用。</td>
+            </tr>
+            <tr>
+              <td>github.base_ref</td>
+              <td>string</td>
+              <td>工作流程运行中拉取请求的 base_ref 或目标分支。 此属性仅在触发工作流程运行的事件为 pull_request 时才可用。</td>
+            </tr>
+            <tr>
+              <td>github.token</td>
+              <td>string</td>
+              <td>代表仓库上安装的 GitHub 应用程序进行身份验证的令牌。 这在功能上等同于 GITHUB_TOKEN 密码。 更多信息请参阅“使用 GITHUB_TOKEN 验证身份”。</td>
+            </tr>
+            <tr>
+              <td>github.workspace</td>
+              <td>string</td>
+              <td>使用 checkout 操作时步骤的默认工作目录和仓库的默认位置。</td>
+            </tr>
+            <tr>
+              <td>github.action</td>
+              <td>string</td>
+              <td>正在运行的操作的名称。 在当前步骤运行脚本时，GitHub 删除特殊字符或使用名称 run。 如果在同一作业中多次使用相同的操作，则名称将包括带有序列号的后缀。 例如，运行的第一个脚本名称为 run1，则第二个脚本将命名为 run2。 同样，actions/checkout 第二次调用时将变成 actionscheckout2。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="contributors"><a aria-hidden="true" tabindex="-1" href="#contributors" class="anchor"><span class="icon icon-link"></span></a>Contributors</h2>
+        <p>As always, thanks to our amazing contributors!</p><a href="https://github.com/jaywcjlove/github-actions/graphs/contributors"><img src="https://jaywcjlove.github.io/github-actions/CONTRIBUTORS.svg"></a>
+        <p>Made with <a href="https://github.com/jaywcjlove/github-action-contributors">action-contributors</a>.</p>
+        <h2 id="license"><a aria-hidden="true" tabindex="-1" href="#license" class="anchor"><span class="icon icon-link"></span></a>License</h2>
+        <p>Licensed under the MIT License.</p>
+        <section class="article-footer"><a href="https://github.com/jaywcjlove/github-actions/blob/master/README.md" class="edit-button" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+<span>Edit this page on GitHub</span>
+</a><span class="atime">2022/05/22</span></section>
+      </markdown-style>
+      <nav class="tocs">
+        <aside class="inner toc">
+          <ol class="tocs-list">
+            <li><a href="#常用实例" class="tocs-link">常用实例</a>
+              <ol class="tocs-list is-collapsed">
+                <li><a href="#配置文件" class="tocs-link">配置文件</a></li>
+                <li><a href="#定触条件" class="tocs-link">定触条件</a></li>
+                <li><a href="#多项任务" class="tocs-link">多项任务</a></li>
+                <li><a href="#多项任务依赖关系" class="tocs-link">多项任务依赖关系</a></li>
+                <li><a href="#指定每项任务的虚拟机环境" class="tocs-link">指定每项任务的虚拟机环境</a></li>
+                <li><a href="#指定每项任务的步骤" class="tocs-link">指定每项任务的步骤</a></li>
+              </ol>
+            </li>
+            <li><a href="#常用实例-1" class="tocs-link">常用实例</a>
+              <ol class="tocs-list is-collapsed">
+                <li><a href="#获取版本信息" class="tocs-link">获取版本信息</a></li>
+                <li><a href="#修改-packagejson" class="tocs-link">修改 package.json</a></li>
+                <li><a href="#提交到-gh-pages-分支" class="tocs-link">提交到 gh-pages 分支</a></li>
+                <li><a href="#克隆带有-submodule-的仓库" class="tocs-link">克隆带有 Submodule 的仓库</a></li>
+                <li><a href="#步骤依赖作业" class="tocs-link">步骤依赖作业</a></li>
+                <li><a href="#步骤作业文件共享" class="tocs-link">步骤作业文件共享</a></li>
+                <li><a href="#提交-npm-包" class="tocs-link">提交 NPM 包</a></li>
+                <li><a href="#提交-docker-镜像" class="tocs-link">提交 docker 镜像</a></li>
+                <li><a href="#提交-commit-到-master-分支" class="tocs-link">提交 commit 到 master 分支</a></li>
+                <li><a href="#nodejs" class="tocs-link">Node.js</a></li>
+                <li><a href="#同步-gitee" class="tocs-link">同步 Gitee</a></li>
+              </ol>
+            </li>
+            <li><a href="#环境变量" class="tocs-link">环境变量</a>
+              <ol class="tocs-list is-collapsed">
+                <li><a href="#默认环境变量" class="tocs-link">默认环境变量</a></li>
+                <li><a href="#自定义环境变量" class="tocs-link">自定义环境变量</a></li>
+              </ol>
+            </li>
+            <li><a href="#github-上下文" class="tocs-link">Github 上下文</a></li>
+            <li><a href="#contributors" class="tocs-link">Contributors</a></li>
+            <li><a href="#license" class="tocs-link">License</a></li>
           </ol>
-        
-      </li>
-    
-      <li>
-        <a href="#环境变量" class="tocs-link">环境变量</a>
-        
-          <ol class="tocs-list is-collapsed">
-            
-              <li>
-                <a href="#默认环境变量" class="tocs-link">默认环境变量</a>
-                
-              </li>
-            
-              <li>
-                <a href="#自定义环境变量" class="tocs-link">自定义环境变量</a>
-                
-              </li>
-            
-          </ol>
-        
-      </li>
-    
-      <li>
-        <a href="#github-上下文" class="tocs-link">Github 上下文</a>
-        
-      </li>
-    
-      <li>
-        <a href="#contributors" class="tocs-link">Contributors</a>
-        
-      </li>
-    
-      <li>
-        <a href="#license" class="tocs-link">License</a>
-        
-      </li>
-    
-    </ol>
-  </aside>
-</nav>
-
-
-<script src="js/tocbot.js?v=1.0.0"></script>
-
-</div>
-
-
-<div class="footer warpper">
-  Released under the MIT License. Copyright © 2022 Kenny Wong<br />
-Generated by <a href="https://github.com/jaywcjlove/idoc" target="_blank">idoc</a> v1.13.11
-
-</div>
-
-</body>
+        </aside>
+      </nav>
+    </div>
+    <script src="js/demo-preview.js?v=1.21.1"></script>
+    <div class="footer warpper">Released under the MIT License. Copyright © 2022 Kenny Wong<br>Generated by <a href="https://github.com/jaywcjlove/idoc" target="_blank">idoc</a> v1.21.1</div>
+    <script src="js/tocbot.js?v=1.21.1"></script>
+  </body>
 </html>
