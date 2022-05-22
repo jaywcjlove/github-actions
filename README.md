@@ -21,7 +21,13 @@ footer: |
 
 <!-- TOC -->
 
+- [基本概念](#基本概念)
+  - [配置文件](#配置文件)
+  - [多项任务](#多项任务)
+  - [多项任务依赖关系](#多项任务依赖关系)
+  - [指定每项任务的虚拟机环境](#指定每项任务的虚拟机环境)
 - [常用实例](#常用实例)
+  - [获取版本信息](#获取版本信息)
   - [获取版本信息](#获取版本信息)
   - [修改 package.json](#修改-packagejson)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
@@ -43,6 +49,153 @@ footer: |
 
 ## 常用实例
 
+GitHub actions 有四个基本的概念，如下：
+
+- workflow （工作流程）：持续集成一次运行的过程，就是一个 workflow。
+- job （任务）：一个 workflow 由一个或多个 jobs 构成，含义是一次持续集成的运行，可以完成多个任务。
+- step（步骤）：每个 job 由多个 step 构成，一步步完成。
+- action （动作）：每个 step 可以依次执行一个或多个命令（action）。
+
+### 配置文件
+
+GitHub Actions 采用 [`YAML`](https://www.ruanyifeng.com/blog/2016/07/yaml.html) 格式的配置文件叫做 workflow 文件，存放在代码仓库的 `.github/workflows` 目录。文件名可以任意取，但是后缀名统一为 `.yml`，比如 `ci.yml`。一个库可以有多个 `workflow` 文件。GitHub 只要发现 `.github/workflows` 目录里面有 `.yml` 文件，就会根据配置事件自动运行该文件。
+
+```yml
+name: GitHub Actions Demo
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - run: npm install
+
+      - run: npm run build
+```
+
+### 定触条件
+
+[`on`](https://docs.github.com/cn/actions/using-workflows/events-that-trigger-workflows) 字段指定触发 `workflow` 的条件，通常是某些事件。
+
+```yml
+# push 事件触发 workflow
+on: push
+
+# push 事件或 pull_request 事件都可以触发 workflow
+on: [push, pull_request]
+
+# 只有在 main 分支 push 事件触发 workflow
+on:
+  push:
+    branches:
+      - main
+
+# push 事件触发 workflow，但是 docs 目录下的更改 push 事件不触发 workflow
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+# push 事件触发 workflow，
+# 包括 sub-project 目录或其子目录中的文件，触发 workflow
+# 除非该文件在 sub-project/docs 目录中，不触发 workflow
+on:
+  push:
+    paths:
+      - 'sub-project/**'
+      - '!sub-project/docs/**'
+# 版本发布为 published 时运行工作流程。
+on:
+  release:
+    types: [published]
+```
+
+### 多项任务
+
+通过 `jobs` (`jobs.<job_id>.name`)字段，配置一项或多项需要执行的任务。
+
+```yml
+jobs:
+  my_first_job:
+    name: My first job
+  my_second_job:
+    name: My second job
+```
+
+### 多项任务依赖关系
+
+通过 `needs` (`jobs.<job_id>.needs`)字段，指定当前任务的依赖关系。
+
+```yml
+jobs:
+  job1:
+  job2:
+    needs: job1
+  job3:
+    needs: [job1, job2]
+```
+
+上面配置中，`job1` 必须先于 `job2` 完成，而 `job3` 等待 `job1` 和 `job2` 的完成才能运行。因此，这个 workflow 的运行顺序依次为：`job1`、`job2`、`job3`。
+
+### 指定每项任务的虚拟机环境
+
+`runs-on` 字段指定运行所需要的虚拟机环境。⚠️ 它是必填字段。
+
+```yml
+runs-on: ubuntu-18.04
+```
+
+```yml
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+```
+
+| **虚拟环境**             | **YAML 工作流程标签**                   | **注：**                                                                             |
+| -------------------- | --------------------------------- | ---------------------------------------------------------------------------------- |
+| Windows Server 2022  | `windows-latest` 或 `windows-2022` | `windows-latest` 标签目前使用的是 Windows Server 2022 运行器镜像 |
+| Windows Server 2019  | `windows-2019`                    |                                                                                    |
+| Ubuntu 22.04         | `ubuntu-22.04`                    | Ubuntu 22.04 目前处于公开测试阶段。                                          |
+| Ubuntu 20.04         | `ubuntu-latest` 或 `ubuntu-20.04`  |                                                                                    |
+| Ubuntu 18.04         | `ubuntu-18.04`                    |                                                                                    |
+| macOS Monterey 12    | `macos-12`                        | macOS 12 目前处于公开测试阶段。                                     |
+| macOS Big Sur 11     | `macos-latest` 或 `macos-11`       | `macos-latest` 标签当前使用 macOS 11 运行器镜像。                |
+| macOS Catalina 10.15 | `macos-10.15`                     |                                                                                    |
+
+### 指定每项任务的步骤
+
+`steps` 字段指定每个 Job 的运行步骤，可以包含一个或多个步骤。每个步骤都可以指定以下三个字段。
+
+```bash
+jobs.<job_id>.steps.name：步骤名称。
+jobs.<job_id>.steps.run：该步骤运行的命令或者 action。
+jobs.<job_id>.steps.env：该步骤所需的环境变量。
+```
+
+```yml
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - run: npm install
+
+      - run: npm run build
+```
+
+## 常用实例
+
 ### 获取版本信息
 
 ```yml
@@ -56,7 +209,6 @@ footer: |
     # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
     echo "$VERSION"
 ```
-
 
 ### 修改 package.json
 
