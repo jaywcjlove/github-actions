@@ -47,7 +47,7 @@ footer: |
 <!-- /TOC -->
 <!--idoc:ignore:end-->
 
-## 常用实例
+## 基本概念
 
 GitHub actions 有四个基本的概念，如下：
 
@@ -143,6 +143,28 @@ jobs:
 ```
 
 上面配置中，`job1` 必须先于 `job2` 完成，而 `job3` 等待 `job1` 和 `job2` 的完成才能运行。因此，这个 workflow 的运行顺序依次为：`job1`、`job2`、`job3`。
+
+### 多项任务传递参数
+
+```yml
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
+    steps:
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - id: step2
+        run: echo "::set-output name=test::world"
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+```
 
 ### 指定每项任务的虚拟机环境
 
