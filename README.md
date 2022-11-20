@@ -29,6 +29,7 @@ footer: |
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
   - [获取版本信息](#获取版本信息)
+  - [获取是否存在 Tag](#获取是否存在-tag)
   - [修改 package.json](#修改-packagejson)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
   - [克隆带有 Submodule 的仓库](#克隆带有-submodule-的仓库)
@@ -230,6 +231,15 @@ jobs:
     # # Strip "v" prefix from tag name
     # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
     echo "$VERSION"
+```
+### 获取是否存在 Tag
+
+```yml
+- run: echo "previous_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')" >> $GITHUB_ENV
+- name: Generate changelog
+  id: changelog
+  uses: jaywcjlove/changelog-generator@main
+  if: env.previous_tag
 ```
 
 ### 修改 package.json
