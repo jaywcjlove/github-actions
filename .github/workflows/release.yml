@@ -5,33 +5,32 @@ on:
       - v*
 jobs:
   build-deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: 'https://registry.npmjs.org'
 
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
+      - name: Generate changelog
+        id: changelog
+        uses: forksss/changelog-generator@main
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          # base-ref: ${{ github.ref }}
 
-    - name: Generate changelog
-      id: changelog
-      uses: forksss/changelog-generator@main
-      with:
-        myToken: ${{ secrets.GITHUB_TOKEN }}
-        # base-ref: ${{ github.ref }}
-
-    - name: Get the changelog
-      run: echo "${{ steps.changelog.outputs.changelog }}"
-      
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: v ${{ github.ref }}
-        body: ${{ steps.changelog.outputs.changelog }}
-        draft: false
-        prerelease: false
+      - name: Get the changelog
+        run: echo "${{ steps.changelog.outputs.changelog }}"
+        
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: v ${{ github.ref }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false

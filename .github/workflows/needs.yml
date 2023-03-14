@@ -6,7 +6,7 @@ on:
 
 jobs:
   job1:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - run: echo "job 1" > job1.md

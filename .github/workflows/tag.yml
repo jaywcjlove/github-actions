@@ -117,3 +117,8 @@ jobs:
         rm -rf .npmrc
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - run: |
+        # 向 EVN 写入 CURRENT_VERSION 环境变量赋值版本号
+        echo "CURRENT_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+    - run: echo "${{env.CURRENT_VERSION}}"
