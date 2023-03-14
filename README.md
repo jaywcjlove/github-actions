@@ -28,7 +28,6 @@ footer: |
   - [指定每项任务的虚拟机环境](#指定每项任务的虚拟机环境)
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
-  - [获取版本信息](#获取版本信息)
   - [获取是否存在 Tag](#获取是否存在-tag)
   - [修改 package.json](#修改-packagejson)
   - [提交到 gh-pages 分支](#提交到-gh-pages-分支)
@@ -211,6 +210,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+          registry-url: 'https://registry.npmjs.org'
 
       - run: npm install
 
@@ -232,6 +232,27 @@ jobs:
     # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
     echo "$VERSION"
 ```
+
+
+```yml
+name: CI
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  create-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      # 向 EVN 写入 CURRENT_VERSION 环境变量赋值版本号
+      - run: |
+          echo "CURRENT_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+      # 可以获取到 CURRENT_VERSION 的值
+      - run: echo "${{env.CURRENT_VERSION}}"
+```
+
 ### 获取是否存在 Tag
 
 ```yml
