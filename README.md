@@ -26,6 +26,7 @@ footer: |
   - [多项任务](#多项任务)
   - [多项任务依赖关系](#多项任务依赖关系)
   - [指定每项任务的虚拟机环境](#指定每项任务的虚拟机环境)
+  - [一个工作流完成触发另外一个工作流](#一个工作流完成触发另外一个工作流)
 - [常用实例](#常用实例)
   - [获取版本信息](#获取版本信息)
   - [获取是否存在 Tag](#获取是否存在-tag)
@@ -215,6 +216,59 @@ jobs:
       - run: npm install
 
       - run: npm run build
+```
+
+### 一个工作流完成触发另外一个工作流
+
+```yml
+# ci.yml
+name: Node.js CI
+on: push
+
+jobs:
+  test:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+  trigger_tests:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger tests
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const res = await github.repos.createDispatchEvent({
+              owner: 'jaywcjlove',
+              repo: 'typenexus',
+              event_type: 'run-deploy'
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+上面 `ci.yml` 工作流执行完成之后，触发 `main.yml`，注意上面的 `run-deploy` 取名保持一致
+
+```yml
+# main.yml
+name: deploy
+on:
+  repository_dispatch:
+    types: [run-deploy]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 ```
 
 ## 常用实例
