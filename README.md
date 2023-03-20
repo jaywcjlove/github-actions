@@ -243,10 +243,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger tests
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
-            const res = await github.repos.createDispatchEvent({
+            const res = await github.rest.repos.createDispatchEvent({
               owner: 'jaywcjlove',
               repo: 'typenexus',
               event_type: 'run-deploy'
