@@ -307,6 +307,14 @@ jobs:
       - run: echo "${{env.CURRENT_VERSION}}"
 ```
 
+### 通过 commit 跳过任务
+
+```yml
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+```
+
 ### 获取是否存在 Tag
 
 ```yml
@@ -495,24 +503,29 @@ npm token revoke <id|token> # 撤销
 - name: Setup Node
   uses: actions/setup-node@v2
   with:
-    node-version: 14
+    node-version: 18
 ```
 
 ```yml
-strategy:
-  matrix:
-    node-version: [10.x, 12.x, 14.x]
 
-steps:
-- uses: actions/checkout@v2
-- name: Use Node.js ${{ matrix.node-version }}
-  uses: actions/setup-node@v1
-  with:
-    node-version: ${{ matrix.node-version }}
-- run: npm ci
-- run: npm run build --if-present
-- run: npm test
+jobs:
+  test:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
 
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
 ```
 
 ### 同步 Gitee
