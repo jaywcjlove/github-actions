@@ -6,6 +6,7 @@ menus:
   官方文档: 
     url: https://github.com/features/actions
     target: __blank
+  赞助: https://jaywcjlove.github.io/#/sponsor
 
 editButton: 
   label: Edit this page on GitHub
