@@ -6,14 +6,14 @@ on:
 
 jobs:
   build-deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v4
 
     - name: Setup Node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
-        node-version: 12
+        node-version: 20
         registry-url: https://registry.npmjs.org/
 
     # - name: Modify Version
@@ -38,7 +38,7 @@ jobs:
 
     - name: View Changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.3.8
+      uses: jaywcjlove/changelog-generator@main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
